@@ -1,0 +1,30 @@
+set up github.com/adammathes/snkt
+set up adammathes.com/snkt
+
+
+ensure
+$ snkt -init foo ; snkt -b
+works as intended
+
+lists (home/archive/category)
+paged (yearly/monthly/daily/N) archive structures
+*.txt|*.md|anything globbed
+
+document my workflow
+
+
+archives return filename instead of hardcoded in templates?
+format string documentation / function
+
+auto-tweeter
+
+github or adammathes.com paths paths
+
+docs
+---
+document all functions, make some internal
+usage notes
+readme.md
+example / explanation / site
+
+
