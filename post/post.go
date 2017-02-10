@@ -137,7 +137,7 @@ func (p *Post) parse() {
 		vlog.Printf("no date field in post %s, using file modification time\n", p.SourceFile)
 	} else {
 		var err error
-		p.Time, err = time.Parse("2006-1-2", date_str)
+		p.Time, err = time.ParseInLocation("2006-1-2", date_str, time.Local)
 		if err != nil {
 			// fallback is to use file modtime
 			// should use create time but that doesn't seem to be in stdlib

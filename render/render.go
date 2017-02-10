@@ -5,6 +5,7 @@ import (
 	"adammathes.com/snkt/config"
 	"io/ioutil"
 	"log"
+	"adammathes.com/snkt/vlog"
 	"os"
 	"path"
 	"path/filepath"
@@ -28,7 +29,7 @@ type Renderable interface {
 
 func Write(a Renderable) {
 	if config.Config.Verbose {
-		log.Printf("Writing to %s\n", a.Target())
+		vlog.Printf("Writing to %s\n", a.Target())
 	}
 	os.MkdirAll(path.Dir(a.Target()), 0755)
 	err := ioutil.WriteFile(a.Target(), a.Render(), 0755)

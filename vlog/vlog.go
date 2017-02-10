@@ -3,12 +3,12 @@ package vlog
 
 import (
 	"adammathes.com/snkt/config"
-	"log"
+	"fmt"
 )
 
 func Printf(format string, v ...interface{}) {
 	if config.Config.Verbose {
-		log.Printf(format, v...)
+		fmt.Printf(format, v...)
 	}
 }
 	
