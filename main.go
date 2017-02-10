@@ -5,11 +5,11 @@ package main
 
 import (
 	"flag"
-	"snkt/config"
-	"snkt/render"
-	"snkt/site"
-	"snkt/web"
-	"snkt/vlog"
+	"adammathes.com/snkt/config"
+	"adammathes.com/snkt/render"
+	"adammathes.com/snkt/site"
+	"adammathes.com/snkt/web"
+	"adammathes.com/snkt/vlog"
 	"fmt"
 )
 

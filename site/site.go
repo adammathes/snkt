@@ -1,10 +1,10 @@
 package site
 
 import (
-	"snkt/archive"
-	"snkt/config"
-	"snkt/post"
-	"snkt/render"
+	"adammathes.com/snkt/archive"
+	"adammathes.com/snkt/config"
+	"adammathes.com/snkt/post"
+	"adammathes.com/snkt/render"
 	"io/ioutil"
 	"log"
 	"path"

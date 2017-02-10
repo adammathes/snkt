@@ -2,7 +2,7 @@
 package vlog
 
 import (
-	"snkt/config"
+	"adammathes.com/snkt/config"
 	"log"
 )
 

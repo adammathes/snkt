@@ -5,10 +5,10 @@ unit of a site: a post. Posts are represented as text files, then converted to H
 package post
 
 import (
-	"snkt/config"
-	"snkt/render"
-	"snkt/text"
-	"snkt/vlog"
+	"adammathes.com/snkt/config"
+	"adammathes.com/snkt/render"
+	"adammathes.com/snkt/text"
+	"adammathes.com/snkt/vlog"
 	"github.com/russross/blackfriday"
 	"io/ioutil"
 	"log"

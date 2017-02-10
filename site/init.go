@@ -2,8 +2,8 @@ package site
 
 import (
 	"path"
-	"snkt/render"
-	"snkt/config"
+	"adammathes.com/snkt/render"
+	"adammathes.com/snkt/config"
 	"os"
 	"log"
 	"gopkg.in/yaml.v2"

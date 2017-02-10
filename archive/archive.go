@@ -1,9 +1,9 @@
 package archive
 
 import (
-	"snkt/config"
-	"snkt/post"
-	"snkt/render"
+	"adammathes.com/snkt/config"
+	"adammathes.com/snkt/post"
+	"adammathes.com/snkt/render"
 	"path"
 )
 

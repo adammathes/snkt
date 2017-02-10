@@ -2,7 +2,7 @@ package render
 
 import (
 	"bytes"
-	"snkt/config"
+	"adammathes.com/snkt/config"
 	"io/ioutil"
 	"log"
 	"os"
