@@ -1,4 +1,4 @@
-// package vlog wraps log actions and only performs them if "verbose" config is set
+// vlog -- verbose logger -- wraps log functions and only performs them if "verbose" config setting is true
 package vlog
 
 import (
