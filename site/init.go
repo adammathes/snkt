@@ -27,7 +27,6 @@ var skeletons = []skeleton {
       <title>{{template "title" .}}</title>
   </head>
   <body>
-      <h1>{{template "title"}}</h1>
       {{template "content" .}}
       <hr />
       <p><a href="{{.Site.URL}}/index.html">Home</a></p>
@@ -55,9 +54,10 @@ var skeletons = []skeleton {
 			Dir: "tmpl",
 			Filename: "post",
 			Content: []byte(
-`{{define "title"}}{{ .Post.Title }}{{end}}
+`{{define "title"}}{{.Post.Title}} - {{.Site.Title}}{{end}}
 {{define "content"}}
-<h2>{{ .Post.Title }}</h2>
+<h1>{{.Site.Title}}</h1>
+<h2>{{.Post.Title}}</h2>
 {{.Post.Content}}
 {{if .Post.Next.Title}}
 <p><a href="{{.Post.Next.Permalink}}">{{.Post.Next.Title}}</a></p>
@@ -74,6 +74,7 @@ var skeletons = []skeleton {
 `{{define "title"}}{{.Site.Title}} Archives{{end}}
 {{define "content"}}
 <h1>{{ .Site.Title }}</h1>
+<h2>Archives</h2>
 {{range .Posts}}
 {{if .}}<h2><a href="{{.Permalink}}">{{.Title}}</a></h2>{{end}}
 {{end}}
@@ -124,6 +125,8 @@ func Init(directory string) {
 	}
 
 	var cfg = config.Settings{
+		SiteTitle: "snkt",
+		SiteURL: "",
 		TxtDir: path.Join(init_dir, "txt"),
 		HtmlDir: path.Join(init_dir, "html"),
 		TmplDir: path.Join(init_dir, "tmpl"),

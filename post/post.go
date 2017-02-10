@@ -8,6 +8,7 @@ import (
 	"snkt/config"
 	"snkt/render"
 	"snkt/text"
+	"snkt/vlog"
 	"github.com/russross/blackfriday"
 	"io/ioutil"
 	"log"
@@ -130,18 +131,20 @@ func (p *Post) parse() {
 	if len(ds) > 0 {
 		date_str = ds[0]
 	}
-	var err error
-	p.Time, err = time.Parse("2006-1-2", date_str)
-	if err != nil {
 
-		if config.Config.Verbose {
-			log.Println(err)
-		}
-
-		// fallback is to use file modtime
-		// should use create time but that doesn't seem to be in stdlib
-		// TODO: figure out how to use file birth time
+	if date_str == "" {
 		p.Time = p.FileInfo.ModTime()
+		vlog.Printf("no date field in post %s, using file modification time\n", p.SourceFile)
+	} else {
+		var err error
+		p.Time, err = time.Parse("2006-1-2", date_str)
+		if err != nil {
+			// fallback is to use file modtime
+			// should use create time but that doesn't seem to be in stdlib
+			// TODO: figure out how to use file birth time
+			vlog.Printf("no valid date parsed for post %s, using file modification time\n", p.SourceFile)
+			p.Time = p.FileInfo.ModTime()
+		}
 	}
 
 	p.Year, p.Month, p.Day = p.Time.Date()
