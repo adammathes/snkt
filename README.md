@@ -1,6 +1,6 @@
 # snkt
 
-Snkt is a static web site generator for with a focus on simplicity and efficiency.
+`snkt` is a static web site generator for with a focus on simplicity and efficiency.
 
 snkt only does a few things, but strives to do them well, in a coherent manner.
 
@@ -166,5 +166,7 @@ scary line of unfinished documentation
 ### Permalink and filename formatter
 
 ### Filters
+
+### Example configurations/sites/themes
 
 ### Auto-rebuild/deployment
