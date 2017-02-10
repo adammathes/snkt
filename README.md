@@ -2,17 +2,17 @@
 
 Snkt is a static web site generator for with a focus on simplicity and efficiency.
 
-## Simplicity
-
 snkt only does a few things, but strives to do them well, in a coherent manner.
-
-## Efficiency
 
 snkt generates my [personal web site of ~2000 articles in under a second](https://trenchant.org/daily/2017/1/31/). Additional work may be done to increase efficiency, but it should be fast enough to regularly regenerate your site without concern in near real-time if needed.
 
 ## Status
 
 Currently in development. It powers [trenchant.org](https://trenchant.org) but is "alpha" quality and parts may change.
+
+TODO:
+   * finish these docs
+   * lots of other things
 
 ## What
 
@@ -68,7 +68,7 @@ This will create:
    * `config.yml` -- configuration file
 
 
-## Writing Your First Post
+## First Post
 
 A one line plaint text file is a valid post.
 
@@ -92,16 +92,16 @@ Snkt will use `config.yml` by default if it's in the working directory. Otherwis
 
 ```
 Usage of snkt:
-  -b	build the site
-  -c string
+  -b	build site
+  -c configuration
     	configuration file (default "config.yml")
   -h	help
   -init directory
     	initialize new site at directory
-  -p	start local HTTP server for preview
+  -p	preview site with local HTTP server
   -v	print version number
   -verbose
-    	log more actions while building
+    	log actions during build
 ```
 
 ## Configuration File
@@ -148,7 +148,20 @@ Post with a preamble --
 
 ## Templates
 
+Templates use the standard library [Go text/template](https://golang.org/pkg/text/template/).
+
+scary line of unfinished documentation
+
+---
+
+### home
+### post
+### archive
+### rss
+
 ## Advanced Features
+
+### paged template
 
 ### Permalink and filename formatter
 
