@@ -132,7 +132,7 @@ For most purposes, it should just be a listing of attribute : value
 Configuration options --
 
 | name             | value                                            | default        |
-----------------------------------------------------------------------------------------
+|------------------|--------------------------------------------------|----------------|
 | `input_dir`      | absolute path of directory for text input files  |                |
 | `output_dir`     | absolute path of directory for html output files |                |
 | `tmpl_dir`       | absolute path of directory for template files    |                |
