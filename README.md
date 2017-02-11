@@ -131,17 +131,18 @@ For most purposes, it should just be a listing of attribute : value
 
 Configuration options --
 
-   * `input_dir` -- absolute path of directory for text input files
-   * `output_dir` -- absolute path of directory for html output files
-   * `tmpl_dir` -- absolute path of directory for template files
-   * `site_title` -- string for the site's title (used in templates)
-   * `site_url` -- absolute URL for the site (used in templates)
-   * `filters` -- search/replace regular expressions executed on all posts
-   * `permalink_fmt` -- format string for permalinks (see #permalinks)
-   * `post_file_fmt` -- format string for post filenames (see #permalinks)
-   * `show_future` -- include posts with dates in the future or hide them
-   * `preview_server` -- host:port to spawn the preview server (default: localhost:8000)
-   * `preview_dir` -- root directory of preview server (default: same as output_dir)
+| name | value | default |
+| `input_dir`      | absolute path of directory for text input files  | |
+| `output_dir`     | absolute path of directory for html output files | |
+| `tmpl_dir`       | absolute path of directory for template files    | |
+| `site_title`     | string for the site's title (used in templates)  | |
+| `site_url`       | absolute URL for the site (used in templates)    | |
+| `filters`        | search/replace regular expressions executed on all posts | |
+| `permalink_fmt`  | format string for permalinks (see #permalinks)           | /%F/ |
+| `post_file_fmt`  | format string for post filenames (see #permalinks)  | /%F/index.html |
+| `show_future`    | include posts with dates in the future or hide them | false |
+| `preview_server` | host:port to spawn the preview server  | localhost:8000 |
+| `preview_dir`    | root directory of preview server | `output_dir` |
 
 ## Posts
 
