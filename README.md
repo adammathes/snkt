@@ -178,22 +178,12 @@ Templates use the standard library [Go text/template](https://golang.org/pkg/tex
 ```go
 	Title string
 	URL   string
-
 	Posts post.Posts
-
-	// all archives are optional based on presence of template
-	Archive *archive.ListArchive
-	Home    *archive.ListArchive
-	Rss     *archive.ListArchive
-	Paged   *archive.PagedArchives
 ```
 
 #### Post (see post/post.go)
 
 ```go
-	Raw      []byte
-	Unparsed string
-
 	// Metadata
 	Meta       map[string]string
 	SourceFile string
@@ -276,7 +266,7 @@ Permalink (URLs for individual posts) can be customized. This part is *meh* and 
 | %F     | Filename | foo   |
 | %T     | Title    | bar   |
 
-Filenames and titles will be "cleaned" of characters unsuitable for links. Extension will be removed from the Filename.
+`Filename` is a cleaned version of the post's original filename with the extension removed. Filenames and titles will be "cleaned" of characters unsuitable for links, with whitespace replaced by `-`.
 
 ### Filters
 
