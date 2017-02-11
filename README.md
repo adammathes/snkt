@@ -13,13 +13,14 @@ Currently in development. It powers [trenchant.org](https://trenchant.org) but i
 ## TODO
 
    * finish these docs
-   * things that are half-baked
-     * archive types (paged, dates, etc)
+   * half-baked / may change
      * permalink formatter
-     * filters/shortcodes
-     * themes
-     * rebuild on file changes
-     * deployment instructions
+     * filters
+   * date handling in templates
+   * additional functions in templates
+   * themes + example sites
+   * complex archive types
+   * multiple archives/lists/post outputs
 
 ## What
 
