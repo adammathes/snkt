@@ -10,9 +10,16 @@ snkt generates my [personal web site of ~2000 articles in under a second](https:
 
 Currently in development. It powers [trenchant.org](https://trenchant.org) but is "alpha" quality and parts may change.
 
-TODO:
+## TODO
+
    * finish these docs
-   * lots of other things
+   * things that are half-baked
+     * archive types (paged, dates, etc)
+     * permalink formatter
+     * filters/shortcodes
+     * themes
+     * rebuild on file changes
+     * deployment instructions
 
 ## What
 
@@ -45,11 +52,11 @@ Get and install dependencies
     $ go get gopkg.in/yaml.v2
 	$ go get github.com/russross/blackfriday
 
-Install snkt -
+Download `snkt`
 
     $ go get adammathes.com/snkt
 
-Build `snkt` binary -
+Build `snkt`
 
     $ go build adammathes.com/snkt
 
@@ -81,11 +88,11 @@ A one line plaint text file is a valid post.
 
     user@host:~/blogadu$ echo "hello world" >> txt/hi
 
-Build the site with --
+Build the site
 
     $ snkt -b
 
-Output should now be in the `html` directory and look like -
+Output should now be in the `html` directory and look like
 
    * `html`
       * `hi/index.html` hello world post
@@ -93,13 +100,11 @@ Output should now be in the `html` directory and look like -
       * `archive.html`
       * `rss.xml` 
 
-You can run a preview server with
+Run a preview server to see the results with
 
     $ snkt -p
     
-Loading http://localhost:8000 in a web browser should now show you the site.
-
-Snkt will use `config.yml` by default if it's in the working directory. Otherwise you can specify it with an explicit `-c /path/config.yml` flag.
+Loading http://localhost:8000 in a web browser should now show the (near empty) site.
 
 ## Command Line Usage
 
@@ -130,7 +135,7 @@ Configuration options --
    * `tmpl_dir` -- absolute path of directory for template files
    * `site_title` -- string for the site's title (used in templates)
    * `site_url` -- absolute URL for the site (used in templates)
-   * `filters` -- tools of the dark arts I haven't documented yet
+   * `filters` -- search/replace regular expressions executed on all posts
    * `permalink_fmt` -- format string for permalinks (see #permalinks)
    * `post_file_fmt` -- format string for post filenames (see #permalinks)
    * `show_future` -- include posts with dates in the future or hide them
@@ -166,23 +171,135 @@ Post with a preamble --
 
 Templates use the standard library [Go text/template](https://golang.org/pkg/text/template/).
 
-scary line of unfinished documentation
+### Types
 
----
+#### Site (see site/site.go)
+```go
+	Title string
+	URL   string
+
+	Posts post.Posts
+
+	// all archives are optional based on presence of template
+	Archive *archive.ListArchive
+	Home    *archive.ListArchive
+	Rss     *archive.ListArchive
+	Paged   *archive.PagedArchives
+```
+
+#### Post (see post/post.go)
+
+```go
+	Raw      []byte
+	Unparsed string
+
+	// Metadata
+	Meta       map[string]string
+	SourceFile string
+	Title      string `json:"title"`
+	Permalink  string `json:"permalink"`
+	Time       time.Time
+	Year       int
+	Month      time.Month
+	Day        int
+	InFuture   bool
+
+	// Content text -- raw, unprocessed, unfiltered markdown
+	Text string
+
+	// Content text -- processed into HTML via markdown and other filters
+	Content string
+
+	// Content with sources and references resolved to absolute URLs
+	AbsoluteContent string
+
+	// Post following chronologically (later)
+	Next *Post
+	// Post preceding chronologically (earlier)
+	Prev *Post
+
+	// Precomputed dates as strings
+	Date    string
+	RssDate string
+
+	FileInfo os.FileInfo
+
+	Site sitemeta
+```
 
 ### home
+
+Displays recent posts. Rendered to `index.html`.
+
+- {{.Site}} *Site*
+- {{.Posts}} *Posts* all posts on site, reverse chronological order
+
 ### post
+
+Template that gets rendered to create individual post pages
+
+- {{.Site}} *Site*
+- {{.Post}} *Post* the individual post the page is for
+
 ### archive
+
+Lists all posts, showing only titles and links. Rendered to `archive.html`
+
+- {{.Site}} *Site*
+- {{.Posts}} *Posts* all posts, reverse chronological order
+
 ### rss
+
+Displays recent posts as RSS 2.0 XML. Rendered to `rss.xml`
+
+- {{.Site}} *Site*
+- {{.Posts}} *Posts* all posts, reverse chronological order
 
 ## Advanced Features
 
 ### paged template
 
+If present renders paged archives (15 posts per page) to `page/%d.html`
+
+See archive/paged.go for details. Used to create an "infinite scroll" style archive. Details/options/implementation may change.
+
 ### Permalink and filename formatter
+
+Permalink (URLs for individual posts) can be customized. This part is *meh* and subject to change.
+
+| String | Value    | Example |
+|--------|----------|---------|
+| %Y     | Year     | 2017  |
+| %M     | Month    | 04    |
+| %D     | Day      | 14    |
+| %F     | Filename | foo   |
+| %T     | Title    | bar   |
+
+Filenames and titles will be "cleaned" of characters unsuitable for links. Extension will be removed from the Filename.
 
 ### Filters
 
+Arbitrary regular expressions can be executed on each post to create domain-specific and site-specific modifications.
+
+Here are the real world examples of regular expressions that filter each post on my personal site -
+
+```yaml
+filters:
+  - s: <photo id="(.+)">
+    r: <div class="photo"><img src="/img/$1" /></div>
+  - s: <segue />
+    r: <p class="segue">&middot; &middot; &middot;</p>
+  - s: <youtube id="(.+)">
+    r: <p class="video"><a href="https://www.youtube.com/watch?v=$1"><img src="/img/$1.jpg" /></a></p>
+  - s: "amazon:(.+)"
+    r: "http://www.amazon.com/exec/obidos/ASIN/$1/decommodify-20/"
+```
+
 ### Example configurations/sites/themes
 
+*not done*
+
 ### Auto-rebuild/deployment
+
+*also not done*
+
