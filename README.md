@@ -29,25 +29,32 @@ I found it fun to get myself thinking in Go. Also, it's 10x faster than the old 
 
 ## Getting snkt
 
-Install Go https://golang.org and set up $GOPATH if you haven't already
+[Install Go](https://golang.org/doc/install)
+
+Set up $GOPATH
 
     $ mkdir $HOME/go
     $ export GOPATH=$HOME/go
     
 Add $GOPATH/bin to your PATH
 
-    $ export PATH=$PATH:$HOME/go/bin
+    $ export PATH=$PATH:$GOPATH/bin
 
-Install dependencies
+Get and install dependencies
 
     $ go get gopkg.in/yaml.v2
 	$ go get github.com/russross/blackfriday
 
-Install snkt
+Install snkt -
 
     $ go get adammathes.com/snkt
-    
-This should should download and build `snkt` and place it in $HOME/go/bin
+
+Build `snkt` binary -
+
+    $ go build adammathes.com/snkt
+
+
+This should download and build `snkt` and place it in $GOPATH/bin
 
 ## Setting up a site
 
@@ -57,14 +64,14 @@ Use the "-init" option to create the skeleton for a new site -
     
 This will create:
 
-   * `txt` -- a directory for plain text input
-   * `html` -- a directory for HTML output
-   * `tmpl` -- a directory for templates with basic templates:
-     * `base` -- basic HTML structure for all pages
-     * `post` -- single post page
-     * `index` -- a home page showing the most recent entires
-     * `archive` -- a list of all post
-     * `rss` -- tempalte for an RSS 2.0 archive 
+   * `txt` directory for plain text input
+   * `html` directory for HTML output
+   * `tmpl` directory for templates
+     * `base` basic HTML structure for all pages
+     * `post` single post page template
+     * `home` - home page with recent posts template
+     * `archive` - list all posts template
+     * `rss` - template for an RSS 2.0 archive 
    * `config.yml` -- configuration file
 
 
@@ -78,7 +85,13 @@ Build the site with --
 
     $ snkt -b
 
-Output should now be in the `html` directory -- including an index.html, archive.html, rss.xml, and `hi/index.html`
+Output should now be in the `html` directory and look like -
+
+   * `html`
+      * `hi/index.html` hello world post
+      * `index.html`
+      * `archive.html`
+      * `rss.xml` 
 
 You can run a preview server with
 
@@ -140,11 +153,14 @@ Post with a preamble --
     date: 2017-02-08
     valid: totes
 
-    This post will have an explicitly set title (ooh! fancy!) instead of inferred from the filename. 
+    This post will have an explicitly set title (ooh! fancy!) 
+    instead of inferred from the filename. 
 
-    It will also have an explicitly set date instead of inferring it from the file creation/modification time.
+    It will also have an explicitly set date instead of inferring 
+    it from the file creation/modification time.
 
-    `totes` will be stored in the post's `meta` map under `valid.` You don't have to worry about that right now, I'll explain later. Maybe.
+    `totes` will be stored in the post's `meta` map under `valid.` 
+    You don't have to worry about that right now. Honest.
 
 ## Templates
 
