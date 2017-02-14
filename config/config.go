@@ -26,6 +26,8 @@ type Settings struct {
 	PreviewServer string `yaml:"preview_server,omitempty"`
 	PreviewDir    string `yaml:"preview_dir,omitempty"`
 
+    FileBlacklist []string `yaml:"ignore_files,omitempty"`
+	
 	Verbose bool `yaml:"verbose,omitempty"`
 }
 
@@ -78,4 +80,14 @@ func addDefaults() {
 	if Config.PreviewDir == "" {
 		Config.PreviewDir = Config.HtmlDir
 	}
+}
+
+// IgnoredFile returns true if `filename` is in the ignored_files config
+func IgnoredFile(filename string) bool {
+	for _, badFile := range Config.FileBlacklist {
+		if filename == badFile {
+			return true
+		}
+	}
+	return false
 }

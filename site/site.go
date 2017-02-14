@@ -5,6 +5,7 @@ import (
 	"adammathes.com/snkt/config"
 	"adammathes.com/snkt/post"
 	"adammathes.com/snkt/render"
+	"adammathes.com/snkt/vlog"
 	"io/ioutil"
 	"log"
 	"path"
@@ -53,7 +54,7 @@ func (s *Site) Read() {
 }
 
 /*
-ReadPosts reads all files from the Config.TxtDir, parses them and stores in s.Posts 
+ReadPosts reads all files from the Config.TxtDir, parses them and stores in s.Posts
 */
 func (s *Site) ReadPosts() {
 	// TODO: filter this as needed
@@ -63,15 +64,22 @@ func (s *Site) ReadPosts() {
 	}
 
 	for _, file := range files {
+
+		if config.IgnoredFile(file.Name()) {
+			vlog.Printf("ignoring file: %s\n", file.Name())
+			continue
+		}
+
 		p := post.NewPost(s)
 		p.Read(file)
 
 		// Ignore post-dated posts unless overriden in config
 		if !config.Config.ShowFuture && p.InFuture {
-			log.Printf("Skipping future dated post: %s\n", p.SourceFile)
-		} else {
-			s.Posts = append(s.Posts, p)
+			vlog.Printf("Skipping future dated post: %s\n", p.SourceFile)
+			continue
 		}
+
+		s.Posts = append(s.Posts, p)
 	}
 
 	// Sort the posts by date, earliest first
