@@ -41,7 +41,7 @@ func main() {
 		return
 	}
 	if(help) {
-		fmt.Printf("in case of emergency, break computer \n")
+		fmt.Printf("please see README.md\n")
 		return
 	}
 	config.Init(configFile)
@@ -51,7 +51,6 @@ func main() {
 
 	render.Init()
 	if build {
-		vlog.Printf("building site...\n")
 		var s site.Site
 		vlog.Printf("reading posts...\n")
 		s.Read()
