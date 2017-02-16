@@ -48,21 +48,11 @@ Add $GOPATH/bin to your PATH
 
     $ export PATH=$PATH:$GOPATH/bin
 
-Get and install dependencies
-
-    $ go get gopkg.in/yaml.v2
-	$ go get github.com/russross/blackfriday
-
-Download `snkt`
+Download and build `snkt`
 
     $ go get adammathes.com/snkt
 
-Build `snkt`
-
-    $ go build adammathes.com/snkt
-
-
-This should download and build `snkt` and place it in $GOPATH/bin
+This should download depdendencies, build `snkt` and place it in $GOPATH/bin
 
 ## Setting up a site
 
