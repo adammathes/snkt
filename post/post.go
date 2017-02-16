@@ -153,7 +153,7 @@ func (p *Post) parse() {
 	Mon Jan 2 15:04:05 MST 2006 */
 
 	p.Date = p.Time.Format("January 2, 2006")
-	p.RssDate = p.Time.Format("Mon, 2 Jan 2006 15:04:05 GMT")
+	p.RssDate = p.Time.Format(time.RFC822)
 	p.InFuture = time.Now().Before(p.Time)
 	p.Permalink = p.GenPermalink()
 
