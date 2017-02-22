@@ -1,26 +1,10 @@
 # snkt
 
-`snkt` is a static web site generator for with a focus on simplicity and efficiency.
+`snkt` is a static web site generator with focused on simplicity and efficiency.
 
 snkt only does a few things, but strives to do them well, in a coherent manner.
 
 snkt generates my [personal web site of ~2000 articles in under a second](https://trenchant.org/daily/2017/1/31/). Additional work may be done to increase efficiency, but it should be fast enough to regularly regenerate your site without concern in near real-time if needed.
-
-## Status
-
-Currently in development. It powers [trenchant.org](https://trenchant.org) but is "alpha" quality and parts may change.
-
-## TODO
-
-   * finish these docs
-   * half-baked / may change
-     * permalink formatter
-     * filters
-   * date handling in templates
-   * additional functions in templates
-   * themes + example sites
-   * complex archive types
-   * multiple archives/lists/post outputs
 
 ## What
 
@@ -34,16 +18,22 @@ This time it's in Go. Maybe you'll find it useful.
 
 I found it fun to get myself thinking in Go. Also, it's 10x faster than the old version in Python.
 
+## Status
+
+It powers [trenchant.org](https://trenchant.org) but is under active development and pieces may change. See TODO for future / in progress work.
 
 ## Getting snkt
 
 [Install Go](https://golang.org/doc/install)
 
+
 Set up $GOPATH
 
     $ mkdir $HOME/go
     $ export GOPATH=$HOME/go
-    
+
+See also: [The GOPATH environment variable](https://golang.org/doc/code.html#GOPATH)
+
 Add $GOPATH/bin to your PATH
 
     $ export PATH=$PATH:$GOPATH/bin
@@ -53,6 +43,8 @@ Download and build `snkt`
     $ go get adammathes.com/snkt
 
 This should download depdendencies, build `snkt` and place it in $GOPATH/bin
+
+`snkt` should now be a self-contained binary, you can move it if needed.
 
 ## Setting up a site
 
@@ -286,3 +278,14 @@ filters:
 
 *also not done*
 
+## TODO
+
+   * finish these docs
+   * half-baked / may change
+     * permalink formatter
+     * filters
+   * date handling in templates
+   * additional functions in templates
+   * themes + example sites
+   * complex archive types
+   * multiple archives/lists/post outputs
