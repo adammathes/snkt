@@ -36,6 +36,7 @@ type Post struct {
 	Month      time.Month
 	Day        int
 	InFuture   bool
+	WordCount  int
 
 	// Content text -- raw, unprocessed, unfiltered markdown
 	Text string
@@ -120,48 +121,16 @@ func (p *Post) parse() {
 		p.Title = p.SourceFile
 	}
 
-	//
-	// Dates
-	//
-	// we only deal with yyyy-mm-dd [some legacy dates from my archives have times tacked on]
-	// TODO: recover from empty dates/titles
-	// TODO: probably should actually use times when present and clean up my archives
-	var date_str = ""
-	ds := strings.Fields(p.Meta["date"])
-	if len(ds) > 0 {
-		date_str = ds[0]
-	}
-
-	if date_str == "" {
-		p.Time = p.FileInfo.ModTime()
-		vlog.Printf("no date field in post %s, using file modification time\n", p.SourceFile)
-	} else {
-		var err error
-		p.Time, err = time.ParseInLocation("2006-1-2", date_str, time.Local)
-		if err != nil {
-			// fallback is to use file modtime
-			// should use create time but that doesn't seem to be in stdlib
-			// TODO: figure out how to use file birth time
-			vlog.Printf("no valid date parsed for post %s, using file modification time\n", p.SourceFile)
-			p.Time = p.FileInfo.ModTime()
-		}
-	}
-
-	p.Year, p.Month, p.Day = p.Time.Date()
-	/* golang date format refresher
-	      1 2  3  4  5  7     6
-	Mon Jan 2 15:04:05 MST 2006 */
-
-	p.Date = p.Time.Format("January 2, 2006")
-	p.RssDate = p.Time.Format(time.RFC822)
-	p.InFuture = time.Now().Before(p.Time)
-	p.Permalink = p.GenPermalink()
+	p.parseDates()
 
 	//
 	// Content
 	//
 	p.Content = string(p.Filter([]byte(p.Text)))
 	p.AbsoluteContent = render.ResolveURLs(p.Content, p.Site.GetURL())
+
+	// WordCount
+	p.WordCount = len(strings.Split(p.Text, " "))
 }
 
 /*
@@ -205,6 +174,46 @@ func (p *Post) ParseFmt(s string) string {
 	return s
 }
 
+func (p *Post) parseDates() {
+	//
+	// Dates
+	//
+	// we only deal with yyyy-mm-dd [some legacy dates from my archives have times tacked on]
+	// TODO: recover from empty dates/titles
+	// TODO: probably should actually use times when present and clean up my archives
+	var date_str = ""
+	ds := strings.Fields(p.Meta["date"])
+	if len(ds) > 0 {
+		date_str = ds[0]
+	}
+
+	if date_str == "" {
+		p.Time = p.FileInfo.ModTime()
+		vlog.Printf("no date field in post %s, using file modification time\n", p.SourceFile)
+	} else {
+		var err error
+		p.Time, err = time.ParseInLocation("2006-1-2", date_str, time.Local)
+		if err != nil {
+			// fallback is to use file modtime
+			// should use create time but that doesn't seem to be in stdlib
+			// TODO: figure out how to use file birth time
+			vlog.Printf("no valid date parsed for post %s, using file modification time\n", p.SourceFile)
+			p.Time = p.FileInfo.ModTime()
+		}
+	}
+
+	p.Year, p.Month, p.Day = p.Time.Date()
+	/* golang date format refresher
+	      1 2  3  4  5  7     6
+	Mon Jan 2 15:04:05 MST 2006 */
+
+	p.Date = p.Time.Format("January 2, 2006")
+	p.RssDate = p.Time.Format(time.RFC822)
+	p.InFuture = time.Now().Before(p.Time)
+	p.Permalink = p.GenPermalink()
+}
+
+
 func (p *Post) CleanFilename() string {
 	return text.SanitizeFilename(text.RemoveExt(p.SourceFile))
 }
@@ -212,8 +221,6 @@ func (p *Post) CleanFilename() string {
 func (p *Post) CleanTitle() string {
 	return text.SanitizeFilename(p.Title)
 }
-
-
 
 /*
 GenPermalink generates the permalink for the post given the PermalinkFmt format specified in the configuration file.
