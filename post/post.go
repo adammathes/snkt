@@ -37,6 +37,7 @@ type Post struct {
 	Day        int
 	InFuture   bool
 	WordCount  int
+	Tags       []string
 
 	// Content text -- raw, unprocessed, unfiltered markdown
 	Text string
@@ -108,7 +109,7 @@ Title, date and other metadata are derived
 */
 func (p *Post) parse() {
 	//
-	// Text + Meta[string][string]
+	// fills p.Text, p.Meta[string][string]
 	//
 	p.splitTextMeta()
 
@@ -116,7 +117,7 @@ func (p *Post) parse() {
 	// Title
 	//
 	p.Title = p.Meta["title"]
-	// Use filename as backup fi we have no explicit title
+	// Use filename as backup if we have no explicit title
 	if p.Title == "" {
 		p.Title = p.SourceFile
 	}
@@ -131,6 +132,14 @@ func (p *Post) parse() {
 
 	// WordCount
 	p.WordCount = len(strings.Split(p.Text, " "))
+
+	// Tags
+	if p.Meta["tags"] != "" {
+		tags := strings.Split(p.Meta["tags"], ",")
+		for _, tag := range tags {
+			p.Tags = append(p.Tags, strings.TrimSpace(tag))
+		}
+	}
 }
 
 /*
@@ -212,7 +221,6 @@ func (p *Post) parseDates() {
 	p.InFuture = time.Now().Before(p.Time)
 	p.Permalink = p.GenPermalink()
 }
-
 
 func (p *Post) CleanFilename() string {
 	return text.SanitizeFilename(text.RemoveExt(p.SourceFile))

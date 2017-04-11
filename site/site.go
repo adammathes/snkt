@@ -23,6 +23,7 @@ type Site struct {
 	Home    *archive.ListArchive
 	Rss     *archive.ListArchive
 	Paged   *archive.PagedArchives
+	Tagged  *archive.TagArchives
 }
 
 /*
@@ -44,6 +45,10 @@ func (s *Site) Read() {
 	}
 	if render.TmplExists("paged") {
 		s.Paged = archive.CreatePaged(15, s.Posts)
+	}
+	if render.TmplExists("tag") {
+		s.Tagged = archive.ParseTags(s.Posts)
+		log.Printf("%v\n", s.Tagged)
 	}
 	if render.TmplExists("home") {
 		s.Home = archive.NewListArchive(s.Posts)
@@ -124,6 +129,13 @@ func (s *Site) WriteArchives() {
 		for _, p := range *s.Paged {
 			p.Site = s
 			render.Write(p)
+		}
+	}
+	if render.TmplExists("tag") {
+		for _, t := range *s.Tagged {
+			log.Printf("%s\n%v\n\n", t.Tag, t.Posts)
+			t.Site = s
+			render.Write(t)
 		}
 	}
 }
