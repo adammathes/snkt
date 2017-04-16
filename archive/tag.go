@@ -24,9 +24,8 @@ func (ta TagArchive) Render() []byte {
 	return render.Render(tagTmplName, ta)
 }
 
-/* TODO: make this configurable */
 func (ta TagArchive) Target() string {
-	return path.Join(config.Config.HtmlDir, "/tag/", fmt.Sprintf("%s.html", ta.Tag))
+	return path.Join(config.Config.HtmlDir, "tag", t, "index.html")
 }
 
 type TagArchives []*TagArchive

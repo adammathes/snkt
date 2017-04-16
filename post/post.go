@@ -134,12 +134,21 @@ func (p *Post) parse() {
 	p.WordCount = len(strings.Split(p.Text, " "))
 
 	// Tags
+	// TODO: separate tag stuff to other module
 	if p.Meta["tags"] != "" {
 		tags := strings.Split(p.Meta["tags"], ",")
 		for _, tag := range tags {
-			p.Tags = append(p.Tags, strings.TrimSpace(tag))
+			p.Tags = append(p.Tags, NormalizeTag(tag))
 		}
 	}
+}
+
+/*
+NormalizeTag trims leading/ending spaces, lowercases, and replaces internal spaces with _
+*/
+func NormalizeTag(tag string) string {
+	t := strings.ToLower(strings.TrimSpace(tag))
+	return strings.Replace(t, " ", "_", -1)
 }
 
 /*

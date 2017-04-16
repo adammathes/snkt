@@ -48,7 +48,6 @@ func (s *Site) Read() {
 	}
 	if render.TmplExists("tag") {
 		s.Tagged = archive.ParseTags(s.Posts)
-		log.Printf("%v\n", s.Tagged)
 	}
 	if render.TmplExists("home") {
 		s.Home = archive.NewListArchive(s.Posts)
@@ -133,7 +132,6 @@ func (s *Site) WriteArchives() {
 	}
 	if render.TmplExists("tag") {
 		for _, t := range *s.Tagged {
-			log.Printf("%s\n%v\n\n", t.Tag, t.Posts)
 			t.Site = s
 			render.Write(t)
 		}
