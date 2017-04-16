@@ -26,7 +26,6 @@ It powers [trenchant.org](https://trenchant.org) but is under active development
 
 [Install Go](https://golang.org/doc/install)
 
-
 Set up $GOPATH
 
     $ mkdir $HOME/go
@@ -269,6 +268,25 @@ filters:
   - s: "amazon:(.+)"
     r: "http://www.amazon.com/exec/obidos/ASIN/$1/decommodify-20/"
 ```
+
+### tags
+
+There is preliminary support for tag style metadata per post.
+
+Add a "tags" field to your post preamble. Tags should be comma separated.
+
+```
+    tags: TagOne, tag two, a third tag, fourth
+
+```
+
+Tags will be normalized to lowercase, with spaces replaced with underscores. So the above would have tagged a post with --
+
+`tagone tag_two a_third_tag fourth`
+
+Tags are accessible in each post struct via the `Tags` field.
+
+To create archives of tags, create a template named `tags` -- it will behave the same as an `archive` template, but create a file at HTML_DIR/tag/tag_name/index.html for each unique tag.
 
 ### Example configurations/sites/themes
 
