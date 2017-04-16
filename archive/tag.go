@@ -25,7 +25,7 @@ func (ta TagArchive) Render() []byte {
 }
 
 func (ta TagArchive) Target() string {
-	return path.Join(config.Config.HtmlDir, "tag", t, "index.html")
+	return path.Join(config.Config.HtmlDir, "tag", ta.Tag, "index.html")
 }
 
 type TagArchives []*TagArchive
