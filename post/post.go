@@ -10,13 +10,15 @@ import (
 	"adammathes.com/snkt/text"
 	"adammathes.com/snkt/vlog"
 	"github.com/russross/blackfriday"
+	"github.com/rwcarlsen/goexif/exif"
 	"io/ioutil"
 	"log"
 	"os"
 	"path"
+	"path/filepath"
 	"strconv"
 	"strings"
-	"time"
+	"time"	
 )
 
 var Template = "post"
@@ -58,7 +60,9 @@ type Post struct {
 	RssDate string
 
 	FileInfo os.FileInfo
-
+	Extension string
+	ContentType string
+	
 	Site sitemeta
 }
 
@@ -95,12 +99,55 @@ func (p *Post) Read(fi os.FileInfo) {
 	p.FileInfo = fi
 	p.SourceFile = p.FileInfo.Name()
 	var err error
-	p.Raw, err = ioutil.ReadFile(path.Join(config.Config.TxtDir, fi.Name()))
-	if err != nil {
-		log.Println(err)
+
+
+	// this is an abominaion
+	
+	ext := filepath.Ext(fi.Name())
+	// ext includes the '.'
+	if len(ext)>1 {
+		p.Extension = strings.ToLower(ext[1:])
 	}
-	p.Unparsed = string(p.Raw)
+
+	switch p.Extension {
+    case "bmp", "gif", "jpg", "jpeg", "png", "tiff":
+		p.ContentType = "image"
+		p.Unparsed = ""
+		p.parseExif()
+		// parse as image
+    case "mp4", "mpeg":
+		p.ContentType = "video"
+		p.Unparsed = ""
+		// parse as image
+    case "mp3":
+		p.ContentType = "audio"
+		p.Unparsed = ""
+		// parse as image
+	default:
+		p.ContentType = "text"
+		p.Raw, err = ioutil.ReadFile(path.Join(config.Config.TxtDir, p.FileInfo.Name()))
+		if err != nil {
+			log.Println(err)
+		}
+		p.Unparsed = string(p.Raw)
+	}
 	p.parse()
+	// end abomination
+}
+
+func (p *Post) AbsoluteFilePath() string {
+	return path.Join(config.Config.TxtDir, p.FileInfo.Name())
+}
+
+/*
+Try to extract metadata from EXIF
+*/
+func (p *Post) parseExif() {
+	// TODO: exif parsing?
+	f,_ := os.Open(p.AbsoluteFilePath())
+	x,_ := exif.Decode(f)
+	tm,_ := x.DateTime()
+	p.Time = tm
 }
 
 /*
@@ -193,6 +240,13 @@ func (p *Post) ParseFmt(s string) string {
 }
 
 func (p *Post) parseDates() {
+
+	// in the case of exif
+	if (p.Time != time.Time{} ) {
+		p.fillDates()
+		return
+	}
+	
 	//
 	// Dates
 	//
@@ -219,7 +273,13 @@ func (p *Post) parseDates() {
 			p.Time = p.FileInfo.ModTime()
 		}
 	}
+	p.fillDates()
+}
 
+/*
+Given p.Time is correct, create the other derived date fields
+*/
+func (p *Post) fillDates() {
 	p.Year, p.Month, p.Day = p.Time.Date()
 	/* golang date format refresher
 	      1 2  3  4  5  7     6
