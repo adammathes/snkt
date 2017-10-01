@@ -114,15 +114,14 @@ func (p *Post) Read(fi os.FileInfo) {
 		p.ContentType = "image"
 		p.Unparsed = ""
 		p.parseExif()
-		// parse as image
     case "mp4", "mpeg":
 		p.ContentType = "video"
 		p.Unparsed = ""
-		// parse as image
+		// TODO: parse video headers
     case "mp3":
 		p.ContentType = "audio"
 		p.Unparsed = ""
-		// parse as image
+		// TODO: mp3/id3 extraction
 	default:
 		p.ContentType = "text"
 		p.Raw, err = ioutil.ReadFile(path.Join(config.Config.TxtDir, p.FileInfo.Name()))
@@ -143,7 +142,7 @@ func (p *Post) AbsoluteFilePath() string {
 Try to extract metadata from EXIF
 */
 func (p *Post) parseExif() {
-	// TODO: exif parsing?
+	// TODO: full exif parsing / metadata propogation
 	f,_ := os.Open(p.AbsoluteFilePath())
 	x,_ := exif.Decode(f)
 	tm,_ := x.DateTime()
@@ -344,4 +343,13 @@ func (posts Posts) Limit(limit int) Posts {
 	} else {
 		return posts[0:limit]
 	}
+}
+
+func (p *Post) ContainsTag(tag string) bool {
+	for _,t := range p.Tags {
+		if t == tag {
+			return true
+		}
+	}
+	return false
 }
