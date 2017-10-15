@@ -18,7 +18,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
-	"time"	
+	"time"
 )
 
 var Template = "post"
@@ -59,10 +59,10 @@ type Post struct {
 	Date    string
 	RssDate string
 
-	FileInfo os.FileInfo
-	Extension string
+	FileInfo    os.FileInfo
+	Extension   string
 	ContentType string
-	
+
 	Site sitemeta
 }
 
@@ -100,29 +100,30 @@ func (p *Post) Read(fi os.FileInfo) {
 	p.SourceFile = p.FileInfo.Name()
 	var err error
 
-
 	// this is an abominaion
-	
+
 	ext := filepath.Ext(fi.Name())
 	// ext includes the '.'
-	if len(ext)>1 {
+	if len(ext) > 1 {
 		p.Extension = strings.ToLower(ext[1:])
 	}
 
+	// TODO: use MIMETYPE instead of just extension
 	switch p.Extension {
-    case "bmp", "gif", "jpg", "jpeg", "png", "tiff":
+	case "bmp", "gif", "jpg", "jpeg", "png", "tiff":
 		p.ContentType = "image"
 		p.Unparsed = ""
 		p.parseExif()
-    case "mp4", "mpeg":
+	case "mp4", "mpeg":
 		p.ContentType = "video"
 		p.Unparsed = ""
 		// TODO: parse video headers
-    case "mp3":
+	case "mp3":
 		p.ContentType = "audio"
 		p.Unparsed = ""
 		// TODO: mp3/id3 extraction
 	default:
+		// TODO: sanity check text vs. binary
 		p.ContentType = "text"
 		p.Raw, err = ioutil.ReadFile(path.Join(config.Config.TxtDir, p.FileInfo.Name()))
 		if err != nil {
@@ -143,9 +144,10 @@ Try to extract metadata from EXIF
 */
 func (p *Post) parseExif() {
 	// TODO: full exif parsing / metadata propogation
-	f,_ := os.Open(p.AbsoluteFilePath())
-	x,_ := exif.Decode(f)
-	tm,_ := x.DateTime()
+	// TODO: error checking
+	f, _ := os.Open(p.AbsoluteFilePath())
+	x, _ := exif.Decode(f)
+	tm, _ := x.DateTime()
 	p.Time = tm
 }
 
@@ -241,11 +243,11 @@ func (p *Post) ParseFmt(s string) string {
 func (p *Post) parseDates() {
 
 	// in the case of exif
-	if (p.Time != time.Time{} ) {
+	if (p.Time != time.Time{}) {
 		p.fillDates()
 		return
 	}
-	
+
 	//
 	// Dates
 	//
@@ -346,7 +348,7 @@ func (posts Posts) Limit(limit int) Posts {
 }
 
 func (p *Post) ContainsTag(tag string) bool {
-	for _,t := range p.Tags {
+	for _, t := range p.Tags {
 		if t == tag {
 			return true
 		}
