@@ -143,12 +143,27 @@ func (p *Post) AbsoluteFilePath() string {
 Try to extract metadata from EXIF
 */
 func (p *Post) parseExif() {
-	// TODO: full exif parsing / metadata propogation
-	// TODO: error checking
-	f, _ := os.Open(p.AbsoluteFilePath())
-	x, _ := exif.Decode(f)
-	tm, _ := x.DateTime()
+	f, err := os.Open(p.AbsoluteFilePath())
+	if err != nil {
+		vlog.Printf("%v", err)
+		return
+	}
+
+	x, err := exif.Decode(f)
+	if err != nil {
+		vlog.Printf("%v", err)
+		return
+	}
+
+	tm, err := x.DateTime()
+	if err != nil {
+		vlog.Printf("%v", err)
+		return
+	}
 	p.Time = tm
+
+	// TODO: full exif parsing | metadata propogation but exif is ugh
+	p.Meta["Exif"] = x.String()
 }
 
 /*
@@ -203,6 +218,10 @@ func NormalizeTag(tag string) string {
 splitText splits up p.Unparsed into p.Text and p.Meta[attr][value]
 */
 func (p *Post) splitTextMeta() {
+	if p.Unparsed == "" {
+		p.Text = ""
+		return
+	}
 	SEPARATOR := ":"
 	lines := strings.Split(p.Unparsed, "\n")
 	for _, line := range lines {
