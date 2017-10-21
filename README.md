@@ -269,7 +269,7 @@ filters:
     r: "http://www.amazon.com/exec/obidos/ASIN/$1/decommodify-20/"
 ```
 
-### tags
+### Tags
 
 There is preliminary support for tag style metadata per post.
 
@@ -288,6 +288,18 @@ Tags are accessible in each post struct via the `Tags` field.
 
 To create archives of tags, create a template named `tags` -- it will behave the same as an `archive` template, but create a file at HTML_DIR/tag/tag_name/index.html for each unique tag.
 
+### Binary Files as Posts
+
+Preliminary support to treat binary files as standalone posts.
+
+Drop image files with "jpg" or other image extensions into the "txt" dir.
+
+* post's ContentType will be set to "image"
+* text fields will be empty strings
+* metadata will be populated as it can via exif (sorta)
+
+Video and audio files have preliminary support too -- see post.go
+
 ### Example configurations/sites/themes
 
 *not done*
@@ -298,12 +310,6 @@ To create archives of tags, create a template named `tags` -- it will behave the
 
 ## TODO
 
-   * finish these docs
-   * half-baked / may change
-     * permalink formatter
-     * filters
-   * date handling in templates
-   * additional functions in templates
-   * themes + example sites
-   * complex archive types
-   * multiple archives/lists/post outputs
+   * complete and document media support (image/mp3/video/binary file posts)
+   * sample sites/templates
+   * proper man pages for docs
