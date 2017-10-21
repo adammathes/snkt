@@ -4,48 +4,43 @@ snkt is a static site generator for simple blog-like sites with a focus on simpl
 package main
 
 import (
-	"flag"
 	"adammathes.com/snkt/config"
 	"adammathes.com/snkt/render"
 	"adammathes.com/snkt/site"
-	"adammathes.com/snkt/web"
 	"adammathes.com/snkt/vlog"
+	"adammathes.com/snkt/web"
 	"fmt"
+	flag "github.com/ogier/pflag"
 )
 
 func main() {
 
 	var configFile, init_dir string
 	var build, preview, version, verbose, help bool
-	
-	flag.StringVar(&configFile, "c", "config.yml", "`configuration` file")
-	flag.StringVar(&init_dir, "init", "", "initialize new site at `directory`")
-	flag.BoolVar(&build, "b", false, "build site")
-	flag.BoolVar(&preview, "p", false, "preview site with local HTTP server")
-	flag.BoolVar(&version, "v", false, "print version number")
-	flag.BoolVar(&help, "h", false, "help")
-	flag.BoolVar(&verbose, "verbose", false, "log actions during build")
+
+	flag.StringVarP(&configFile, "config", "c", "config.yml", "`configuration` file")
+	flag.StringVarP(&init_dir, "init", "i", "", "initialize new site at `directory`")
+	flag.BoolVarP(&build, "build", "b", false, "build site")
+	flag.BoolVarP(&preview, "preview", "p", false, "preview site with local HTTP server")
+	flag.BoolVarP(&help, "help", "h", false, "print help message")
+	flag.BoolVarP(&verbose, "verbose", "v", false, "log actions during build to STDOUT")
 	flag.Parse()
 
-	if !help && !build && !preview && !version && init_dir=="" {
+	if !help && !build && !preview && !version && init_dir == "" {
 		flag.Usage()
 		return
 	}
-	if(init_dir != "") {
+	if init_dir != "" {
 		fmt.Printf("initializing new site in %s\n", init_dir)
 		site.Init(init_dir)
 		return
 	}
-	if(version) {
-		fmt.Printf("0.1 alpha\n")
-		return
-	}
-	if(help) {
+	if help {
 		fmt.Printf("please see README.md\n")
 		return
 	}
 	config.Init(configFile)
-	if(verbose) {
+	if verbose {
 		config.Config.Verbose = true
 	}
 
