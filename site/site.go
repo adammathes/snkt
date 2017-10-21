@@ -74,6 +74,11 @@ func (s *Site) ReadPosts() {
 			continue
 		}
 
+		// ignore dotfiles
+		if file.Name()[:1] == "." {
+			continue
+		}
+
 		p := post.NewPost(s)
 		p.Read(file)
 
