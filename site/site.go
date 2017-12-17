@@ -36,12 +36,12 @@ func (s *Site) Read() {
 
 	if render.TmplExists("archive") {
 		s.Archive = archive.NewListArchive(s.Posts)
-		s.Archive.Site = *s
+		s.Archive.Site = s
 		sort.Sort(sort.Reverse(s.Archive.Posts))
 	}
 	if render.TmplExists("rss") {
 		s.Rss = archive.NewRssArchive(s.Posts)
-		s.Rss.Site = *s
+		s.Rss.Site = s
 	}
 	if render.TmplExists("paged") {
 		s.Paged = archive.CreatePaged(15, s.Posts)

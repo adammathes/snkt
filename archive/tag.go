@@ -6,6 +6,7 @@ import (
 	"adammathes.com/snkt/render"
 	"fmt"
 	"path"
+	"sort"
 )
 
 var tagTmplName = "tag"
@@ -29,6 +30,18 @@ func (ta TagArchive) Target() string {
 }
 
 type TagArchives []*TagArchive
+
+func (tags TagArchives) Len() int {
+	return len(tags)
+}
+
+func (tags TagArchives) Less(i, j int) bool {
+	return tags[i].Tag < tags[j].Tag
+}
+
+func (tags TagArchives) Swap(i, j int) {
+	tags[i], tags[j] = tags[j], tags[i]
+}
 
 func ParseTags(posts post.Posts) *TagArchives {
 
@@ -61,6 +74,7 @@ func ParseTags(posts post.Posts) *TagArchives {
 		tas = append(tas, &ta)
 	}
 
+	sort.Sort(tas)
 	return &tas
 }
 
