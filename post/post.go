@@ -9,6 +9,7 @@ import (
 	"adammathes.com/snkt/render"
 	"adammathes.com/snkt/text"
 	"adammathes.com/snkt/vlog"
+	"github.com/microcosm-cc/bluemonday"
 	"github.com/russross/blackfriday"
 	"github.com/rwcarlsen/goexif/exif"
 	"io/ioutil"
@@ -49,6 +50,9 @@ type Post struct {
 
 	// Content with sources and references resolved to absolute URLs
 	AbsoluteContent string
+
+	// Content HTML tags removed
+	PlainText string
 
 	// Post following chronologically (later)
 	Next *Post
@@ -192,9 +196,13 @@ func (p *Post) parse() {
 	//
 	p.Content = string(p.Filter([]byte(p.Text)))
 	p.AbsoluteContent = render.ResolveURLs(p.Content, p.Site.GetURL())
+	policy := bluemonday.StrictPolicy()
+	p.PlainText = policy.Sanitize(p.Content)
+	p.PlainText = strings.Replace(p.PlainText, "\n\n", "\n", -1)
+	p.PlainText = strings.Replace(p.PlainText, "  ", " ", -1)
 
 	// WordCount
-	p.WordCount = len(strings.Split(p.Text, " "))
+	p.WordCount = len(strings.Split(p.PlainText, " "))
 
 	// Tags
 	// TODO: separate tag stuff to other module
@@ -376,4 +384,33 @@ func (p *Post) ContainsTag(tag string) bool {
 		}
 	}
 	return false
+}
+
+/*
+Returns the first words of the plain text version of the post, up to `maxWords`
+*/
+func (p *Post) FirstWords(maxWords int) string {
+	words := strings.Split(p.PlainText, " ")
+	if len(words) <= maxWords {
+		maxWords = len(words)
+	}
+
+	return strings.Join(words[0:maxWords], " ")
+}
+
+/*
+Returns one or more words of the plain text version of the post, up to `maxChars`
+*/
+func (p *Post) FirstChars(maxChars int) string {
+
+	s := ""
+
+	words := strings.Split(p.PlainText, " ")
+	for _, word := range words {
+		if len(s)+len(word) > maxChars {
+			break
+		}
+		s = s + " " + word
+	}
+	return s
 }
