@@ -215,7 +215,7 @@ func NormalizeTag(tag string) string {
 }
 
 /*
-splitText splits up p.Unparsed into p.Text and p.Meta[attr][value]
+splitText splits p.Unparsed into p.Text and p.Meta[attr][value]
 */
 func (p *Post) splitTextMeta() {
 	if p.Unparsed == "" {
@@ -297,7 +297,7 @@ func (p *Post) parseDates() {
 }
 
 /*
-Given p.Time is correct, create the other derived date fields
+Given p.Time, create the other derived date fields
 */
 func (p *Post) fillDates() {
 	p.Year, p.Month, p.Day = p.Time.Date()
@@ -366,6 +366,9 @@ func (posts Posts) Limit(limit int) Posts {
 	}
 }
 
+/*
+ContainsTag returns true if Post `p` has `tag` in its set of tags.
+*/
 func (p *Post) ContainsTag(tag string) bool {
 	for _, t := range p.Tags {
 		if t == tag {
