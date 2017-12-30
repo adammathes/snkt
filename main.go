@@ -17,18 +17,18 @@ import (
 func main() {
 
 	var configFile, init_dir string
-	var build, preview, version, verbose, help, watch bool
+	var build, serve, version, verbose, help, watch bool
 
 	flag.StringVarP(&configFile, "config", "c", "config.yml", "`configuration` file")
 	flag.StringVarP(&init_dir, "init", "i", "", "initialize new site at `directory`")
 	flag.BoolVarP(&build, "build", "b", false, "generates site from input files and templates")
-	flag.BoolVarP(&preview, "preview", "p", false, "preview site via spawned HTTP server")
+	flag.BoolVarP(&serve, "serve", "s", false, "serve site via integrated HTTP server")
 	flag.BoolVarP(&help, "help", "h", false, "print usage information")
 	flag.BoolVarP(&verbose, "verbose", "v", false, "log operations during build to STDOUT")
 	flag.BoolVarP(&watch, "watch", "w", false, "watch configured input text dir, rebuild on changes")
 	flag.Parse()
 
-	if !watch && !help && !build && !preview && !version && init_dir == "" {
+	if !watch && !help && !build && !serve && !version && init_dir == "" {
 		flag.Usage()
 		return
 	}
@@ -53,17 +53,22 @@ func main() {
 		buildSite()
 	}
 
-	if preview {
-		fmt.Printf("spawning preview server [%s] of [%s]\n",
+	if serve {
+		fmt.Printf("serving [%s] at [%s]\n",
 			config.Config.PreviewServer, config.Config.PreviewDir)
-		go func() {
-			web.Serve(config.Config.PreviewServer, config.Config.PreviewDir)
-		}()
+		// run on goroutine so watcher can start and block if needed
+		go web.Serve(config.Config.PreviewServer, config.Config.PreviewDir)
 	}
 
 	if watch {
-		fmt.Printf("watching directory %s\n", config.Config.TxtDir)
+		fmt.Printf("watching %s\n", config.Config.TxtDir)
 		watchSite()
+	}
+
+	// run preview server perpetually
+	if serve {
+		done := make(chan bool)
+		<-done
 	}
 }
 
