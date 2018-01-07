@@ -355,7 +355,7 @@ func (p Post) Render() []byte {
 }
 
 /*
-Filter runs the text through filters defined by render.Filter and marddown, returning text suitable for HTML output.
+Filter runs the text through filters defined by render.Filter and markdown, returning text suitable for HTML output.
 */
 func (p *Post) Filter(txt []byte) []byte {
 	txt = render.Filter(txt)
