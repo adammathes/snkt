@@ -10,6 +10,7 @@ import (
 	"log"
 	"path"
 	"sort"
+	"strings"
 )
 
 type Site struct {
@@ -19,11 +20,12 @@ type Site struct {
 	Posts post.Posts
 
 	// all archives are optional based on presence of template
-	Archive *archive.ListArchive
-	Home    *archive.ListArchive
-	Rss     *archive.ListArchive
-	Paged   *archive.PagedArchives
-	Tagged  *archive.TagArchives
+	Archive      *archive.ListArchive
+	Home         *archive.ListArchive
+	Rss          *archive.ListArchive
+	Paged        *archive.PagedArchives
+	Tagged       *archive.TagArchives
+	ListArchives []*archive.ListArchive
 }
 
 /*
@@ -54,6 +56,14 @@ func (s *Site) Read() {
 		s.Home.Tgt = path.Join(config.Config.HtmlDir, "index.html")
 		s.Home.Template = "home"
 		s.Home.Site = s
+	}
+
+	// generic list templates
+	for _, t := range render.TemplateNames() {
+		if strings.HasSuffix(t, ".list") {
+			la := archive.NewGenericListArchive(s.Posts, t, strings.TrimSuffix(t, ".list"))
+			s.ListArchives = append(s.ListArchives, la)
+		}
 	}
 }
 
@@ -141,6 +151,11 @@ func (s *Site) WriteArchives() {
 			render.Write(t)
 		}
 	}
+	for _, t := range s.ListArchives {
+		t.Site = s
+		render.Write(t)
+	}
+
 }
 
 func (s *Site) WritePosts() {

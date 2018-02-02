@@ -1,11 +1,11 @@
 package render
 
 import (
-	"bytes"
 	"adammathes.com/snkt/config"
+	"adammathes.com/snkt/vlog"
+	"bytes"
 	"io/ioutil"
 	"log"
-	"adammathes.com/snkt/vlog"
 	"os"
 	"path"
 	"path/filepath"
@@ -25,6 +25,18 @@ know where they should end up in the filesystem
 type Renderable interface {
 	Render() []byte
 	Target() string
+}
+
+func TemplateNames() []string {
+	templateNames := make([]string, len(templates))
+
+	i := 0
+	for tName, _ := range templates {
+		templateNames[i] = tName
+		i++
+	}
+
+	return templateNames
 }
 
 func Write(a Renderable) {
@@ -51,11 +63,10 @@ func Init() {
 
 	tmplFuncs := template.FuncMap{
 		"ResolveURLs": ResolveURLs,
-		"SiteTitle": SiteTitle,
-		"SiteURL": SiteURL,
+		"SiteTitle":   SiteTitle,
+		"SiteURL":     SiteURL,
 	}
 
-	
 	base := path.Join(config.Config.TmplDir, BASE_TEMPLATE)
 	for _, t := range ts {
 		tf := filepath.Base(t)

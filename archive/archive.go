@@ -11,18 +11,18 @@ var archiveTmplName = "archive"
 var archiveName = "archive.html"
 
 /*
-ListArchive 
+ListArchive
 */
 type ListArchive struct {
 	Posts    post.Posts
 	Tgt      string
 	Template string
-	
+
 	Site interface{}
 }
 
 func NewListArchive(posts post.Posts) *ListArchive {
-	la := ListArchive{ Posts: posts }
+	la := ListArchive{Posts: posts}
 	return &la
 }
 
@@ -40,12 +40,17 @@ func (a ListArchive) Render() []byte {
 	return render.Render(a.Template, a)
 }
 
-
 /*
 NewRssArchive takes posts and returns an archive ready for RSS output
 */
 func NewRssArchive(posts post.Posts) *ListArchive {
-	ra := ListArchive{ Posts: posts, Template: "rss" }
+	ra := ListArchive{Posts: posts, Template: "rss"}
 	ra.Tgt = path.Join(config.Config.HtmlDir, "rss.xml")
 	return &ra
+}
+
+func NewGenericListArchive(posts post.Posts, templateName string, target string) *ListArchive {
+	la := ListArchive{Posts: posts, Template: templateName}
+	la.Tgt = path.Join(config.Config.HtmlDir, target)
+	return &la
 }
