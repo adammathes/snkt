@@ -1,74 +1,80 @@
+<pre style="font-family: menlo, courier, monospace;">
+                     ██                 
+                     ██          ██     
+                     ██          ██     
+  ▒█████░  ██░████   ██  ▓██▒  ███████  
+ ████████  ███████▓  ██ ▓██▒   ███████  
+ ██▒  ░▒█  ███  ▒██  ██▒██▒      ██     
+ █████▓░   ██    ██  ████▓       ██     
+ ░██████▒  ██    ██  █████       ██     
+    ░▒▓██  ██    ██  ██░███      ██     
+ █▒░  ▒██  ██    ██  ██  ██▒     ██░    
+ ████████  ██    ██  ██  ▒██     █████  
+ ░▓████▓   ██    ██  ██   ███    ░████  
+                                        
+
+              v.01 manual
+               2/18/2018
+
+</pre>
+
 # snkt
 
-`snkt` is a static web site generator focused on simplicity and efficiency.
+`snkt` is a static site generator focused on simplicity and efficiency.
 
-snkt only does a few things, but strives to do them well, in a coherent manner.
+`snkt` does a few things, but strives to do them coherently.
 
-snkt generates my [personal web site of ~2000 articles in under a second](https://trenchant.org/daily/2017/1/31/). Additional work may be done to increase efficiency, but it should be fast enough to regularly regenerate your site without concern in near real-time if needed.
-
-## What
-
-Takes a bunch of plain text files, processes them via templates, and generates HTML. Pretty much like you'd expect of a static site generator.
+`snkt` generates my [personal web site of ~2000 articles in under a second](https://trenchant.org/daily/2017/1/31/). It should be fast enough to completely regenerate even very large sites in near real-time if needed.
 
 ## Why
 
 Every 5-10 years I throw out the software for my site and rewrite it. 
 
-This time it's in Go. Maybe you'll find it useful. 
-
-I found it fun to get myself thinking in Go. Also, it's 10x faster than the old version in Python.
+This time it's in Go. Maybe you'll find it useful. It's 10x faster than the old version in Python.
 
 ## Status
 
 It powers [trenchant.org](https://trenchant.org) but is under active development and pieces may change. See TODO for future / in progress work.
 
-## Getting snkt
+# Installation
 
-[Install Go](https://golang.org/doc/install)
+The only dependency for building is `go`.
 
-Set up $GOPATH
+[Install Go](https://golang.org/doc/install) for your platform.
 
-    $ mkdir $HOME/go
-    $ export GOPATH=$HOME/go
-
-See also: [The GOPATH environment variable](https://golang.org/doc/code.html#GOPATH)
-
-Add $GOPATH/bin to your PATH
-
-    $ export PATH=$PATH:$GOPATH/bin
-
-Download and build `snkt`
+Download and build `snkt` with something like
 
     $ go get adammathes.com/snkt
 
-This should download depdendencies, build `snkt` and place it in $GOPATH/bin
+This will download dependencies, build `snkt` and place it in your $GOPATH/bin (by default, ~/go/bin/).
 
-`snkt` should now be a self-contained binary, you can move it if needed.
+`snkt` is a self-contained binary, you can move it anywhere.
 
-## Setting up a site
+# Quick Start
+
+## Creating a Site
 
 Use the "-init" option to create the skeleton for a new site -
 
-    $ snkt -init blogadu
+    $ snkt -i myblog
     
 This will create:
 
-   * `txt` directory for plain text input
+   * `txt` directory for posts
    * `html` directory for HTML output
    * `tmpl` directory for templates
-     * `base` basic HTML structure for all pages
-     * `post` single post page template
-     * `home` - home page with recent posts template
-     * `archive` - list all posts template
-     * `rss` - template for an RSS 2.0 archive 
-   * `config.yml` -- configuration file
-
+     * `base` HTML structure wrapper
+     * `archive` lists all posts
+     * `post` single post page
+     * `home` home page with recent posts
+     * `rss` RSS 2.0 
+   * `config.yml` configuration file
 
 ## First Post
 
 A one line plaint text file is a valid post.
 
-    user@host:~/blogadu$ echo "hello world" >> txt/hi
+    user@host:~/myblog$ echo "hello world" >> txt/hi
 
 Build the site
 
@@ -82,31 +88,44 @@ Output should now be in the `html` directory and look like
       * `archive.html`
       * `rss.xml` 
 
-Run a preview server to see the results with
+## Viewing the Results
+
+`snkt` includes a simple web server to view the results with
 
     $ snkt -p
     
-Loading http://localhost:8000 in a web browser should now show the (near empty) site.
+Visiting http://localhost:8000 in a web browser should now show the site and the first post.
 
-## Command Line Usage
+You can now copy this HTML anywhere and you're set.
+
+# Command Line Options
 
 ```
 Usage of snkt:
-  -b	build site
-  -c configuration
+  -b, --build
+    	generates site from input files and templates
+  -c, --config configuration
     	configuration file (default "config.yml")
-  -h	help
-  -init directory
+  -h, --help
+    	print usage information
+  -i, --init directory
     	initialize new site at directory
-  -p	preview site with local HTTP server
-  -v	print version number
-  -verbose
-    	log actions during build
+  -s, --serve
+    	serve site via integrated HTTP server
+  -v, --verbose
+    	log operations during build to STDOUT
+  -w, --watch
+    	watch configured input text dir, rebuild on changes
 ```
 
-## Configuration File
+Examples
 
-The configuration is in [YAML](http://yaml.org)
+    $ snkt -c site.yaml -b
+    $ snkt --config=myconfig.yml -v -w
+
+# Configuration
+
+Per site configuration is via a [YAML](http://yaml.org) file.
 
 For most purposes, it should just be a listing of attribute : value
 
@@ -117,8 +136,8 @@ Configuration options --
 | `input_dir`      | absolute path of directory for text input files  |                |
 | `output_dir`     | absolute path of directory for html output files |                |
 | `tmpl_dir`       | absolute path of directory for template files    |                |
-| `site_title`     | string for the site's title (used in templates)  |                |
-| `site_url`       | absolute URL for the site (used in templates)    |                |
+| `site_title`     | string for the site's title                      |                |
+| `site_url`       | absolute URL for the site                        |                |
 | `filters`        | list of search/replace regex's to run on posts   |                |
 | `permalink_fmt`  | format string for permalinks                     | /%F/           |
 | `post_file_fmt`  | format string for post filenames                 | /%F/index.html |
@@ -126,7 +145,7 @@ Configuration options --
 | `preview_server` | host:port to spawn the preview server            | localhost:8000 |
 | `preview_dir`    | root directory of preview server                 | `output_dir`   |
 
-## Posts
+# Posts
 
 Post inputs are stored as plain text files. (I have only tested UTF-8 and ASCII.)
 
@@ -151,27 +170,29 @@ Post with a preamble --
     `totes` will be stored in the post's `meta` map under `valid.` 
     You don't have to worry about that right now. Honest.
 
-## Templates
+# Templates
 
 Templates use the standard library [Go text/template](https://golang.org/pkg/text/template/).
 
-### Types
+Entities in the templates --
 
-#### Site (see site/site.go)
-```go
+**Site**
+```
 	Title string
 	URL   string
-	Posts post.Posts
+	Posts array of posts
 ```
 
-#### Post (see post/post.go)
+See site/site.go for more.
 
-```go
+**Post**
+
+```
 	// Metadata
 	Meta       map[string]string
 	SourceFile string
-	Title      string `json:"title"`
-	Permalink  string `json:"permalink"`
+	Title      string 
+	Permalink  string
 	Time       time.Time
 	Year       int
 	Month      time.Month
@@ -195,51 +216,42 @@ Templates use the standard library [Go text/template](https://golang.org/pkg/tex
 	// Precomputed dates as strings
 	Date    string
 	RssDate string
-
-	FileInfo os.FileInfo
-
-	Site sitemeta
 ```
 
-### home
+## home
 
-Displays recent posts. Rendered to `index.html`.
-
-- {{.Site}} *Site*
-- {{.Posts}} *Posts* all posts on site, reverse chronological order
-
-### post
-
-Template that gets rendered to create individual post pages
+Displays recent posts and rendered to `index.html` in the `output_dir`.
 
 - {{.Site}} *Site*
-- {{.Post}} *Post* the individual post the page is for
+- {{.Posts}} *Posts* all posts on site in reverse chronological order
 
-### archive
+## post
+
+Each individual post uses this template
+
+- {{.Site}} *Site*
+- {{.Post}} *Post* the individual post
+
+## archive
 
 Lists all posts, showing only titles and links. Rendered to `archive.html`
 
 - {{.Site}} *Site*
 - {{.Posts}} *Posts* all posts, reverse chronological order
 
-### rss
+## rss
 
 Displays recent posts as RSS 2.0 XML. Rendered to `rss.xml`
 
 - {{.Site}} *Site*
 - {{.Posts}} *Posts* all posts, reverse chronological order
 
-## Advanced Features
 
-### paged template
+# Advanced Configuration Options
 
-If present renders paged archives (15 posts per page) to `page/%d.html`
+## Permalink and filename formatter
 
-See archive/paged.go for details. Used to create an "infinite scroll" style archive. Details/options/implementation may change.
-
-### Permalink and filename formatter
-
-Permalink (URLs for individual posts) can be customized. This part is *meh* and subject to change.
+Permalinks (URLs for individual posts) can be customized.
 
 | String | Value    | Example |
 |--------|----------|---------|
@@ -251,7 +263,8 @@ Permalink (URLs for individual posts) can be customized. This part is *meh* and 
 
 `Filename` is a cleaned version of the post's original filename with the extension removed. Filenames and titles will be "cleaned" of characters unsuitable for links, with whitespace replaced by `-`.
 
-### Filters
+
+## Filters
 
 Arbitrary regular expressions can be executed on each post to create domain-specific and site-specific modifications.
 
@@ -269,7 +282,19 @@ filters:
     r: "http://www.amazon.com/exec/obidos/ASIN/$1/decommodify-20/"
 ```
 
-### Tags
+# Work in Progress Features
+
+These features are working but less documented and potentially still in progress and subject to change.
+
+## Paged Archives
+
+If a template named `paged` is present then paged archives (15 posts per page) are created at `output_dir/page/%d.html`
+
+Template variables are the same as the `archive` template, but with `.NextPage` and `.PrevPage` as integers of the next and previous page.
+
+See archive/paged.go for details.
+
+## Tags
 
 There is preliminary support for tag style metadata per post.
 
@@ -284,11 +309,15 @@ Tags will be normalized to lowercase, with spaces replaced with underscores. So 
 
 `tagone tag_two a_third_tag fourth`
 
-Tags are accessible in each post struct via the `Tags` field.
+Tags are accessible in each post via the `Tags` field.
 
-To create archives of tags, create a template named `tags` -- it will behave the same as an `archive` template, but create a file at HTML_DIR/tag/tag_name/index.html for each unique tag.
+To create pages by tag, create a template named `tags`.
 
-### Binary Files as Posts
+This creates a file at OUTPUT_DIR/tag/tag_name/index.html for each tag.
+
+It will have access to the same variables as an `archive` template with the additional `.Tag` for the tag name.
+
+## Binary Files as Posts
 
 Preliminary support to treat binary files as standalone posts.
 
@@ -296,20 +325,23 @@ Drop image files with "jpg" or other image extensions into the "txt" dir.
 
 * post's ContentType will be set to "image"
 * text fields will be empty strings
-* metadata will be populated as it can via exif (sorta)
+* metadata will be populated as it can via exif (maybe)
 
-Video and audio files have preliminary support too -- see post.go
+Video and audio files have preliminary support too -- see `post/post.go`
 
-### Example configurations/sites/themes
+# Example configurations, sites, themes
 
 *not done*
 
-### Auto-rebuild/deployment
+# Rebuild and deployment recipes
 
 *also not done*
 
-## TODO
+# TODO
 
-   * complete and document media support (image/mp3/video/binary file posts)
    * sample sites/templates
    * proper man pages for docs
+
+# Feedback
+
+Pull requests and issues are welcomed at https://github.com/adammathes/snkt

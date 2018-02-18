@@ -1,0 +1,511 @@
+<nav>
+<ul>
+<li><a href="#toc_0">snkt</a>
+<ul>
+<li><a href="#toc_1">Why</a></li>
+<li><a href="#toc_2">Status</a></li>
+</ul></li>
+<li><a href="#toc_3">Installation</a></li>
+<li><a href="#toc_4">Quick Start</a>
+<ul>
+<li><a href="#toc_5">Creating a Site</a></li>
+<li><a href="#toc_6">First Post</a></li>
+<li><a href="#toc_7">Viewing the Results</a></li>
+</ul></li>
+<li><a href="#toc_8">Command Line Options</a></li>
+<li><a href="#toc_9">Configuration</a></li>
+<li><a href="#toc_10">Posts</a></li>
+<li><a href="#toc_11">Templates</a>
+<ul>
+<li><a href="#toc_12">home</a></li>
+<li><a href="#toc_13">post</a></li>
+<li><a href="#toc_14">archive</a></li>
+<li><a href="#toc_15">rss</a></li>
+</ul></li>
+<li><a href="#toc_16">Advanced Configuration Options</a>
+<ul>
+<li><a href="#toc_17">Permalink and filename formatter</a></li>
+<li><a href="#toc_18">Filters</a></li>
+</ul></li>
+<li><a href="#toc_19">Work in Progress Features</a>
+<ul>
+<li><a href="#toc_20">Paged Archives</a></li>
+<li><a href="#toc_21">Tags</a></li>
+<li><a href="#toc_22">Binary Files as Posts</a></li>
+</ul></li>
+<li><a href="#toc_23">Example configurations, sites, themes</a></li>
+<li><a href="#toc_24">Rebuild and deployment recipes</a></li>
+<li><a href="#toc_25">TODO</a></li>
+<li><a href="#toc_26">Feedback</a></li>
+</ul>
+</nav>
+
+<pre style="font-family: menlo, courier, monospace;">
+                     ██                 
+                     ██          ██     
+                     ██          ██     
+  ▒█████░  ██░████   ██  ▓██▒  ███████  
+ ████████  ███████▓  ██ ▓██▒   ███████  
+ ██▒  ░▒█  ███  ▒██  ██▒██▒      ██     
+ █████▓░   ██    ██  ████▓       ██     
+ ░██████▒  ██    ██  █████       ██     
+    ░▒▓██  ██    ██  ██░███      ██     
+ █▒░  ▒██  ██    ██  ██  ██▒     ██░    
+ ████████  ██    ██  ██  ▒██     █████  
+ ░▓████▓   ██    ██  ██   ███    ░████  
+                                        
+
+              v.01 manual
+               2/18/2018
+
+</pre>
+
+<h1 id="toc_0">snkt</h1>
+
+<p><code>snkt</code> is a static site generator focused on simplicity and efficiency.</p>
+
+<p><code>snkt</code> does a few things, but strives to do them coherently.</p>
+
+<p><code>snkt</code> generates my <a href="https://trenchant.org/daily/2017/1/31/">personal web site of ~2000 articles in under a second</a>. It should be fast enough to completely regenerate even very large sites in near real-time if needed.</p>
+
+<h2 id="toc_1">Why</h2>
+
+<p>Every 5-10 years I throw out the software for my site and rewrite it.</p>
+
+<p>This time it&rsquo;s in Go. Maybe you&rsquo;ll find it useful. It&rsquo;s 10x faster than the old version in Python.</p>
+
+<h2 id="toc_2">Status</h2>
+
+<p>It powers <a href="https://trenchant.org">trenchant.org</a> but is under active development and pieces may change. See TODO for future / in progress work.</p>
+
+<h1 id="toc_3">Installation</h1>
+
+<p>The only dependency for building is <code>go</code>.</p>
+
+<p><a href="https://golang.org/doc/install">Install Go</a> for your platform.</p>
+
+<p>Download and build <code>snkt</code> with something like</p>
+
+<pre><code>$ go get adammathes.com/snkt
+</code></pre>
+
+<p>This will download dependencies, build <code>snkt</code> and place it in your $GOPATH/bin (by default, ~/go/bin/).</p>
+
+<p><code>snkt</code> is a self-contained binary, you can move it anywhere.</p>
+
+<h1 id="toc_4">Quick Start</h1>
+
+<h2 id="toc_5">Creating a Site</h2>
+
+<p>Use the &ldquo;-init&rdquo; option to create the skeleton for a new site -</p>
+
+<pre><code>$ snkt -i myblog
+</code></pre>
+
+<p>This will create:</p>
+
+<ul>
+<li><code>txt</code> directory for posts</li>
+<li><code>html</code> directory for HTML output</li>
+<li><code>tmpl</code> directory for templates
+
+<ul>
+<li><code>base</code> HTML structure wrapper</li>
+<li><code>archive</code> lists all posts</li>
+<li><code>post</code> single post page</li>
+<li><code>home</code> home page with recent posts</li>
+<li><code>rss</code> RSS 2.0</li>
+</ul></li>
+<li><code>config.yml</code> configuration file</li>
+</ul>
+
+<h2 id="toc_6">First Post</h2>
+
+<p>A one line plaint text file is a valid post.</p>
+
+<pre><code>user@host:~/myblog$ echo &quot;hello world&quot; &gt;&gt; txt/hi
+</code></pre>
+
+<p>Build the site</p>
+
+<pre><code>$ snkt -b
+</code></pre>
+
+<p>Output should now be in the <code>html</code> directory and look like</p>
+
+<ul>
+<li><code>html</code>
+
+<ul>
+<li><code>hi/index.html</code> hello world post</li>
+<li><code>index.html</code></li>
+<li><code>archive.html</code></li>
+<li><code>rss.xml</code></li>
+</ul></li>
+</ul>
+
+<h2 id="toc_7">Viewing the Results</h2>
+
+<p><code>snkt</code> includes a simple web server to view the results with</p>
+
+<pre><code>$ snkt -p
+</code></pre>
+
+<p>Visiting <a href="http://localhost:8000">http://localhost:8000</a> in a web browser should now show the site and the first post.</p>
+
+<p>You can now copy this HTML anywhere and you&rsquo;re set.</p>
+
+<h1 id="toc_8">Command Line Options</h1>
+
+<pre><code>Usage of snkt:
+  -b, --build
+    	generates site from input files and templates
+  -c, --config configuration
+    	configuration file (default &quot;config.yml&quot;)
+  -h, --help
+    	print usage information
+  -i, --init directory
+    	initialize new site at directory
+  -s, --serve
+    	serve site via integrated HTTP server
+  -v, --verbose
+    	log operations during build to STDOUT
+  -w, --watch
+    	watch configured input text dir, rebuild on changes
+</code></pre>
+
+<p>Examples</p>
+
+<pre><code>$ snkt -c site.yaml -b
+$ snkt --config=myconfig.yml -v -w
+</code></pre>
+
+<h1 id="toc_9">Configuration</h1>
+
+<p>Per site configuration is via a <a href="http://yaml.org">YAML</a> file.</p>
+
+<p>For most purposes, it should just be a listing of attribute : value</p>
+
+<p>Configuration options --</p>
+
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>value</th>
+<th>default</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>input_dir</code></td>
+<td>absolute path of directory for text input files</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>output_dir</code></td>
+<td>absolute path of directory for html output files</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>tmpl_dir</code></td>
+<td>absolute path of directory for template files</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>site_title</code></td>
+<td>string for the site&rsquo;s title</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>site_url</code></td>
+<td>absolute URL for the site</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>filters</code></td>
+<td>list of search/replace regex&rsquo;s to run on posts</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>permalink_fmt</code></td>
+<td>format string for permalinks</td>
+<td>/%F/</td>
+</tr>
+
+<tr>
+<td><code>post_file_fmt</code></td>
+<td>format string for post filenames</td>
+<td>/%F/index.html</td>
+</tr>
+
+<tr>
+<td><code>show_future</code></td>
+<td>include posts with dates in the future</td>
+<td>false</td>
+</tr>
+
+<tr>
+<td><code>preview_server</code></td>
+<td>host:port to spawn the preview server</td>
+<td>localhost:8000</td>
+</tr>
+
+<tr>
+<td><code>preview_dir</code></td>
+<td>root directory of preview server</td>
+<td><code>output_dir</code></td>
+</tr>
+</tbody>
+</table>
+
+<h1 id="toc_10">Posts</h1>
+
+<p>Post inputs are stored as plain text files. (I have only tested UTF-8 and ASCII.)</p>
+
+<p>Posts have an optional metadata preamble, and a markdown formatted body. The preamble is just a series of name value pairings separated by a colon (:) character.</p>
+
+<p>Minimal complete and valid post --</p>
+
+<pre><code>this is a totally valid post
+</code></pre>
+
+<p>Post with a preamble --</p>
+
+<pre><code>title: also a valid post
+date: 2017-02-08
+valid: totes
+
+This post will have an explicitly set title (ooh! fancy!) 
+instead of inferred from the filename. 
+
+It will also have an explicitly set date instead of inferring 
+it from the file creation/modification time.
+
+`totes` will be stored in the post's `meta` map under `valid.` 
+You don't have to worry about that right now. Honest.
+</code></pre>
+
+<h1 id="toc_11">Templates</h1>
+
+<p>Templates use the standard library <a href="https://golang.org/pkg/text/template/">Go text/template</a>.</p>
+
+<p>Entities in the templates --</p>
+
+<p><strong>Site</strong></p>
+
+<pre><code>	Title string
+	URL   string
+	Posts array of posts
+</code></pre>
+
+<p>See site/site.go for more.</p>
+
+<p><strong>Post</strong></p>
+
+<pre><code>	// Metadata
+	Meta       map[string]string
+	SourceFile string
+	Title      string 
+	Permalink  string
+	Time       time.Time
+	Year       int
+	Month      time.Month
+	Day        int
+	InFuture   bool
+
+	// Content text -- raw, unprocessed, unfiltered markdown
+	Text string
+
+	// Content text -- processed into HTML via markdown and other filters
+	Content string
+
+	// Content with sources and references resolved to absolute URLs
+	AbsoluteContent string
+
+	// Post following chronologically (later)
+	Next *Post
+	// Post preceding chronologically (earlier)
+	Prev *Post
+
+	// Precomputed dates as strings
+	Date    string
+	RssDate string
+</code></pre>
+
+<h2 id="toc_12">home</h2>
+
+<p>Displays recent posts and rendered to <code>index.html</code> in the <code>output_dir</code>.</p>
+
+<ul>
+<li>{{.Site}} <em>Site</em></li>
+<li>{{.Posts}} <em>Posts</em> all posts on site in reverse chronological order</li>
+</ul>
+
+<h2 id="toc_13">post</h2>
+
+<p>Each individual post uses this template</p>
+
+<ul>
+<li>{{.Site}} <em>Site</em></li>
+<li>{{.Post}} <em>Post</em> the individual post</li>
+</ul>
+
+<h2 id="toc_14">archive</h2>
+
+<p>Lists all posts, showing only titles and links. Rendered to <code>archive.html</code></p>
+
+<ul>
+<li>{{.Site}} <em>Site</em></li>
+<li>{{.Posts}} <em>Posts</em> all posts, reverse chronological order</li>
+</ul>
+
+<h2 id="toc_15">rss</h2>
+
+<p>Displays recent posts as RSS 2.0 XML. Rendered to <code>rss.xml</code></p>
+
+<ul>
+<li>{{.Site}} <em>Site</em></li>
+<li>{{.Posts}} <em>Posts</em> all posts, reverse chronological order</li>
+</ul>
+
+<h1 id="toc_16">Advanced Configuration Options</h1>
+
+<h2 id="toc_17">Permalink and filename formatter</h2>
+
+<p>Permalinks (URLs for individual posts) can be customized.</p>
+
+<table>
+<thead>
+<tr>
+<th>String</th>
+<th>Value</th>
+<th>Example</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>%Y</td>
+<td>Year</td>
+<td>2017</td>
+</tr>
+
+<tr>
+<td>%M</td>
+<td>Month</td>
+<td>04</td>
+</tr>
+
+<tr>
+<td>%D</td>
+<td>Day</td>
+<td>14</td>
+</tr>
+
+<tr>
+<td>%F</td>
+<td>Filename</td>
+<td>foo</td>
+</tr>
+
+<tr>
+<td>%T</td>
+<td>Title</td>
+<td>bar</td>
+</tr>
+</tbody>
+</table>
+
+<p><code>Filename</code> is a cleaned version of the post&rsquo;s original filename with the extension removed. Filenames and titles will be &ldquo;cleaned&rdquo; of characters unsuitable for links, with whitespace replaced by <code>-</code>.</p>
+
+<h2 id="toc_18">Filters</h2>
+
+<p>Arbitrary regular expressions can be executed on each post to create domain-specific and site-specific modifications.</p>
+
+<p>Here are the real world examples of regular expressions that filter each post on my personal site -</p>
+
+<pre><code class="language-yaml">filters:
+  - s: &lt;photo id=&quot;(.+)&quot;&gt;
+    r: &lt;div class=&quot;photo&quot;&gt;&lt;img src=&quot;/img/$1&quot; /&gt;&lt;/div&gt;
+  - s: &lt;segue /&gt;
+    r: &lt;p class=&quot;segue&quot;&gt;&amp;middot; &amp;middot; &amp;middot;&lt;/p&gt;
+  - s: &lt;youtube id=&quot;(.+)&quot;&gt;
+    r: &lt;p class=&quot;video&quot;&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=$1&quot;&gt;&lt;img src=&quot;/img/$1.jpg&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+  - s: &quot;amazon:(.+)&quot;
+    r: &quot;http://www.amazon.com/exec/obidos/ASIN/$1/decommodify-20/&quot;
+</code></pre>
+
+<h1 id="toc_19">Work in Progress Features</h1>
+
+<p>These features are working but less documented and potentially still in progress and subject to change.</p>
+
+<h2 id="toc_20">Paged Archives</h2>
+
+<p>If a template named <code>paged</code> is present then paged archives (15 posts per page) are created at <code>output_dir/page/%d.html</code></p>
+
+<p>Template variables are the same as the <code>archive</code> template, but with <code>.NextPage</code> and <code>.PrevPage</code> as integers of the next and previous page.</p>
+
+<p>See archive/paged.go for details.</p>
+
+<h2 id="toc_21">Tags</h2>
+
+<p>There is preliminary support for tag style metadata per post.</p>
+
+<p>Add a &ldquo;tags&rdquo; field to your post preamble. Tags should be comma separated.</p>
+
+<pre><code>    tags: TagOne, tag two, a third tag, fourth
+
+</code></pre>
+
+<p>Tags will be normalized to lowercase, with spaces replaced with underscores. So the above would have tagged a post with --</p>
+
+<p><code>tagone tag_two a_third_tag fourth</code></p>
+
+<p>Tags are accessible in each post via the <code>Tags</code> field.</p>
+
+<p>To create pages by tag, create a template named <code>tags</code>.</p>
+
+<p>This creates a file at OUTPUT_DIR/tag/tag_name/index.html for each tag.</p>
+
+<p>It will have access to the same variables as an <code>archive</code> template with the additional <code>.Tag</code> for the tag name.</p>
+
+<h2 id="toc_22">Binary Files as Posts</h2>
+
+<p>Preliminary support to treat binary files as standalone posts.</p>
+
+<p>Drop image files with &ldquo;jpg&rdquo; or other image extensions into the &ldquo;txt&rdquo; dir.</p>
+
+<ul>
+<li>post&rsquo;s ContentType will be set to &ldquo;image&rdquo;</li>
+<li>text fields will be empty strings</li>
+<li>metadata will be populated as it can via exif (maybe)</li>
+</ul>
+
+<p>Video and audio files have preliminary support too -- see <code>post/post.go</code></p>
+
+<h1 id="toc_23">Example configurations, sites, themes</h1>
+
+<p><em>not done</em></p>
+
+<h1 id="toc_24">Rebuild and deployment recipes</h1>
+
+<p><em>also not done</em></p>
+
+<h1 id="toc_25">TODO</h1>
+
+<ul>
+<li>sample sites/templates</li>
+<li>proper man pages for docs</li>
+</ul>
+
+<h1 id="toc_26">Feedback</h1>
+
+<p>Pull requests and issues are welcomed at <a href="https://github.com/adammathes/snkt">https://github.com/adammathes/snkt</a></p>
