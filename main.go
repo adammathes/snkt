@@ -93,7 +93,7 @@ func watchSite() {
 		for {
 			select {
 			case event := <-watcher.Events:
-				if event.Op&fsnotify.Write == fsnotify.Write {
+				if event.Op&fsnotify.Write != fsnotify.Chmod {
 					fmt.Printf("rebuilding... ")
 					buildSite()
 					fmt.Printf("done\n")
