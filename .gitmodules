@@ -13,3 +13,6 @@
 [submodule "vendor/github.com/rwcarlsen/goexif"]
 	path = vendor/github.com/rwcarlsen/goexif
 	url = https://github.com/rwcarlsen/goexif
+[submodule "vendor/gopkg.in/yaml.v2"]
+	path = vendor/gopkg.in/yaml.v2
+	url = https://gopkg.in/yaml.v2
