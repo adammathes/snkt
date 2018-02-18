@@ -77,7 +77,11 @@ func Init() {
 		tx := template.New("t").Funcs(tmplFuncs)
 		templates[tf], err = tx.ParseFiles(base, t)
 		if err != nil {
-			panic(err)
+			// temporary files can confuse this, especially when
+			// running the file system watcher so we silently
+			// ignore any templates that disappeared since we started
+			// since this is usually not a real  error condition
+			delete(templates, tf)
 		}
 	}
 	rel_href = regexp.MustCompile(`href="/(.+)"`)

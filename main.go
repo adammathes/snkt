@@ -47,7 +47,6 @@ func main() {
 	if verbose {
 		config.Config.Verbose = true
 	}
-	render.Init()
 
 	if build {
 		buildSite()
@@ -61,7 +60,6 @@ func main() {
 	}
 
 	if watch {
-		fmt.Printf("watching %s\n", config.Config.TxtDir)
 		watchSite()
 	}
 
@@ -73,11 +71,14 @@ func main() {
 }
 
 func buildSite() {
+	vlog.Printf("reading templates...\n")
+	render.Init()
 	var s site.Site
 	vlog.Printf("reading posts...\n")
 	s.Read()
 	vlog.Printf("writing posts and archives...\n")
 	s.Write()
+	vlog.Printf("done...\n")
 }
 
 func watchSite() {
@@ -93,8 +94,9 @@ func watchSite() {
 			select {
 			case event := <-watcher.Events:
 				if event.Op&fsnotify.Write == fsnotify.Write {
-					fmt.Printf("rebuilding\n")
+					fmt.Printf("rebuilding... ")
 					buildSite()
+					fmt.Printf("done\n")
 				}
 			case err := <-watcher.Errors:
 				vlog.Printf("error: %v", err)
@@ -102,7 +104,13 @@ func watchSite() {
 		}
 	}()
 
+	fmt.Printf("watching %s\n", config.Config.TxtDir)
 	err = watcher.Add(config.Config.TxtDir)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("watching %s\n", config.Config.TmplDir)
+	err = watcher.Add(config.Config.TmplDir)
 	if err != nil {
 		panic(err)
 	}
