@@ -18,6 +18,34 @@
 
 </pre>
 
+- [snkt](#snkt)
+    - [Why](#why)
+    - [Status](#status)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+    - [Creating a Site](#creating-a-site)
+    - [First Post](#first-post)
+    - [Viewing the Results](#viewing-the-results)
+- [Command Line Options](#command-line-options)
+- [Configuration](#configuration)
+- [Posts](#posts)
+- [Templates](#templates)
+    - [home](#home)
+    - [post](#post)
+    - [archive](#archive)
+    - [rss](#rss)
+- [Advanced Configuration Options](#advanced-configuration-options)
+    - [Permalink and filename formatter](#permalink-and-filename-formatter)
+    - [Filters](#filters)
+- [Work in Progress Features](#work-in-progress-features)
+    - [Paged Archives](#paged-archives)
+    - [Tags](#tags)
+    - [Binary Files as Posts](#binary-files-as-posts)
+- [Example configurations, sites, themes](#example-configurations-sites-themes)
+- [Rebuild and deployment recipes](#rebuild-and-deployment-recipes)
+- [TODO](#todo)
+- [Feedback](#feedback)
+
 # snkt
 
 `snkt` is a static site generator focused on simplicity and efficiency.

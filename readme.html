@@ -1,46 +1,5 @@
-<nav>
-<ul>
-<li><a href="#toc_0">snkt</a>
-<ul>
-<li><a href="#toc_1">Why</a></li>
-<li><a href="#toc_2">Status</a></li>
-</ul></li>
-<li><a href="#toc_3">Installation</a></li>
-<li><a href="#toc_4">Quick Start</a>
-<ul>
-<li><a href="#toc_5">Creating a Site</a></li>
-<li><a href="#toc_6">First Post</a></li>
-<li><a href="#toc_7">Viewing the Results</a></li>
-</ul></li>
-<li><a href="#toc_8">Command Line Options</a></li>
-<li><a href="#toc_9">Configuration</a></li>
-<li><a href="#toc_10">Posts</a></li>
-<li><a href="#toc_11">Templates</a>
-<ul>
-<li><a href="#toc_12">home</a></li>
-<li><a href="#toc_13">post</a></li>
-<li><a href="#toc_14">archive</a></li>
-<li><a href="#toc_15">rss</a></li>
-</ul></li>
-<li><a href="#toc_16">Advanced Configuration Options</a>
-<ul>
-<li><a href="#toc_17">Permalink and filename formatter</a></li>
-<li><a href="#toc_18">Filters</a></li>
-</ul></li>
-<li><a href="#toc_19">Work in Progress Features</a>
-<ul>
-<li><a href="#toc_20">Paged Archives</a></li>
-<li><a href="#toc_21">Tags</a></li>
-<li><a href="#toc_22">Binary Files as Posts</a></li>
-</ul></li>
-<li><a href="#toc_23">Example configurations, sites, themes</a></li>
-<li><a href="#toc_24">Rebuild and deployment recipes</a></li>
-<li><a href="#toc_25">TODO</a></li>
-<li><a href="#toc_26">Feedback</a></li>
-</ul>
-</nav>
-
-<pre style="font-family: menlo, courier, monospace;">
+<html><head><meta charset="utf-8"></head><body><article><pre
+                     style="font-family: menlo, monotype;">
                      ██                 
                      ██          ██     
                      ██          ██     
@@ -60,29 +19,74 @@
 
 </pre>
 
-<h1 id="toc_0">snkt</h1>
+<ul>
+<li><a href="#snkt" rel="nofollow">snkt</a>
+
+<ul>
+<li><a href="#why" rel="nofollow">Why</a></li>
+<li><a href="#status" rel="nofollow">Status</a></li>
+</ul></li>
+<li><a href="#installation" rel="nofollow">Installation</a></li>
+<li><a href="#quick-start" rel="nofollow">Quick Start</a>
+
+<ul>
+<li><a href="#creating-a-site" rel="nofollow">Creating a Site</a></li>
+<li><a href="#first-post" rel="nofollow">First Post</a></li>
+<li><a href="#viewing-the-results" rel="nofollow">Viewing the Results</a></li>
+</ul></li>
+<li><a href="#command-line-options" rel="nofollow">Command Line Options</a></li>
+<li><a href="#configuration" rel="nofollow">Configuration</a></li>
+<li><a href="#posts" rel="nofollow">Posts</a></li>
+<li><a href="#templates" rel="nofollow">Templates</a>
+
+<ul>
+<li><a href="#home" rel="nofollow">home</a></li>
+<li><a href="#post" rel="nofollow">post</a></li>
+<li><a href="#archive" rel="nofollow">archive</a></li>
+<li><a href="#rss" rel="nofollow">rss</a></li>
+</ul></li>
+<li><a href="#advanced-configuration-options" rel="nofollow">Advanced Configuration Options</a>
+
+<ul>
+<li><a href="#permalink-and-filename-formatter" rel="nofollow">Permalink and filename formatter</a></li>
+<li><a href="#filters" rel="nofollow">Filters</a></li>
+</ul></li>
+<li><a href="#work-in-progress-features" rel="nofollow">Work in Progress Features</a>
+
+<ul>
+<li><a href="#paged-archives" rel="nofollow">Paged Archives</a></li>
+<li><a href="#tags" rel="nofollow">Tags</a></li>
+<li><a href="#binary-files-as-posts" rel="nofollow">Binary Files as Posts</a></li>
+</ul></li>
+<li><a href="#example-configurations-sites-themes" rel="nofollow">Example configurations, sites, themes</a></li>
+<li><a href="#rebuild-and-deployment-recipes" rel="nofollow">Rebuild and deployment recipes</a></li>
+<li><a href="#todo" rel="nofollow">TODO</a></li>
+<li><a href="#feedback" rel="nofollow">Feedback</a></li>
+</ul>
+<h1><a name="snkt" class="anchor" href="#snkt" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+snkt</h1>
 
 <p><code>snkt</code> is a static site generator focused on simplicity and efficiency.</p>
 
 <p><code>snkt</code> does a few things, but strives to do them coherently.</p>
 
-<p><code>snkt</code> generates my <a href="https://trenchant.org/daily/2017/1/31/">personal web site of ~2000 articles in under a second</a>. It should be fast enough to completely regenerate even very large sites in near real-time if needed.</p>
-
-<h2 id="toc_1">Why</h2>
+<p><code>snkt</code> generates my <a href="https://trenchant.org/daily/2017/1/31/" rel="nofollow">personal web site of ~2000 articles in under a second</a>. It should be fast enough to completely regenerate even very large sites in near real-time if needed.</p>
+<h2><a name="why" class="anchor" href="#why" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Why</h2>
 
 <p>Every 5-10 years I throw out the software for my site and rewrite it.</p>
 
-<p>This time it&rsquo;s in Go. Maybe you&rsquo;ll find it useful. It&rsquo;s 10x faster than the old version in Python.</p>
+<p>This time it&#39;s in Go. Maybe you&#39;ll find it useful. It&#39;s 10x faster than the old version in Python.</p>
+<h2><a name="status" class="anchor" href="#status" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Status</h2>
 
-<h2 id="toc_2">Status</h2>
-
-<p>It powers <a href="https://trenchant.org">trenchant.org</a> but is under active development and pieces may change. See TODO for future / in progress work.</p>
-
-<h1 id="toc_3">Installation</h1>
+<p>It powers <a href="https://trenchant.org" rel="nofollow">trenchant.org</a> but is under active development and pieces may change. See TODO for future / in progress work.</p>
+<h1><a name="installation" class="anchor" href="#installation" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Installation</h1>
 
 <p>The only dependency for building is <code>go</code>.</p>
 
-<p><a href="https://golang.org/doc/install">Install Go</a> for your platform.</p>
+<p><a href="https://golang.org/doc/install" rel="nofollow">Install Go</a> for your platform.</p>
 
 <p>Download and build <code>snkt</code> with something like</p>
 
@@ -92,12 +96,12 @@
 <p>This will download dependencies, build <code>snkt</code> and place it in your $GOPATH/bin (by default, ~/go/bin/).</p>
 
 <p><code>snkt</code> is a self-contained binary, you can move it anywhere.</p>
+<h1><a name="quick-start" class="anchor" href="#quick-start" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Quick Start</h1>
+<h2><a name="creating-a-site" class="anchor" href="#creating-a-site" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Creating a Site</h2>
 
-<h1 id="toc_4">Quick Start</h1>
-
-<h2 id="toc_5">Creating a Site</h2>
-
-<p>Use the &ldquo;-init&rdquo; option to create the skeleton for a new site -</p>
+<p>Use the &#34;-init&#34; option to create the skeleton for a new site -</p>
 
 <pre><code>$ snkt -i myblog
 </code></pre>
@@ -118,12 +122,12 @@
 </ul></li>
 <li><code>config.yml</code> configuration file</li>
 </ul>
-
-<h2 id="toc_6">First Post</h2>
+<h2><a name="first-post" class="anchor" href="#first-post" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+First Post</h2>
 
 <p>A one line plaint text file is a valid post.</p>
 
-<pre><code>user@host:~/myblog$ echo &quot;hello world&quot; &gt;&gt; txt/hi
+<pre><code>user@host:~/myblog$ echo &#34;hello world&#34; &gt;&gt; txt/hi
 </code></pre>
 
 <p>Build the site</p>
@@ -143,25 +147,25 @@
 <li><code>rss.xml</code></li>
 </ul></li>
 </ul>
-
-<h2 id="toc_7">Viewing the Results</h2>
+<h2><a name="viewing-the-results" class="anchor" href="#viewing-the-results" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Viewing the Results</h2>
 
 <p><code>snkt</code> includes a simple web server to view the results with</p>
 
 <pre><code>$ snkt -p
 </code></pre>
 
-<p>Visiting <a href="http://localhost:8000">http://localhost:8000</a> in a web browser should now show the site and the first post.</p>
+<p>Visiting <a href="http://localhost:8000" rel="nofollow">http://localhost:8000</a> in a web browser should now show the site and the first post.</p>
 
-<p>You can now copy this HTML anywhere and you&rsquo;re set.</p>
-
-<h1 id="toc_8">Command Line Options</h1>
+<p>You can now copy this HTML anywhere and you&#39;re set.</p>
+<h1><a name="command-line-options" class="anchor" href="#command-line-options" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Command Line Options</h1>
 
 <pre><code>Usage of snkt:
   -b, --build
     	generates site from input files and templates
   -c, --config configuration
-    	configuration file (default &quot;config.yml&quot;)
+    	configuration file (default &#34;config.yml&#34;)
   -h, --help
     	print usage information
   -i, --init directory
@@ -179,10 +183,10 @@
 <pre><code>$ snkt -c site.yaml -b
 $ snkt --config=myconfig.yml -v -w
 </code></pre>
+<h1><a name="configuration" class="anchor" href="#configuration" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Configuration</h1>
 
-<h1 id="toc_9">Configuration</h1>
-
-<p>Per site configuration is via a <a href="http://yaml.org">YAML</a> file.</p>
+<p>Per site configuration is via a <a href="http://yaml.org" rel="nofollow">YAML</a> file.</p>
 
 <p>For most purposes, it should just be a listing of attribute : value</p>
 
@@ -218,7 +222,7 @@ $ snkt --config=myconfig.yml -v -w
 
 <tr>
 <td><code>site_title</code></td>
-<td>string for the site&rsquo;s title</td>
+<td>string for the site&#39;s title</td>
 <td></td>
 </tr>
 
@@ -230,7 +234,7 @@ $ snkt --config=myconfig.yml -v -w
 
 <tr>
 <td><code>filters</code></td>
-<td>list of search/replace regex&rsquo;s to run on posts</td>
+<td>list of search/replace regex&#39;s to run on posts</td>
 <td></td>
 </tr>
 
@@ -265,8 +269,8 @@ $ snkt --config=myconfig.yml -v -w
 </tr>
 </tbody>
 </table>
-
-<h1 id="toc_10">Posts</h1>
+<h1><a name="posts" class="anchor" href="#posts" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Posts</h1>
 
 <p>Post inputs are stored as plain text files. (I have only tested UTF-8 and ASCII.)</p>
 
@@ -289,13 +293,13 @@ instead of inferred from the filename.
 It will also have an explicitly set date instead of inferring 
 it from the file creation/modification time.
 
-`totes` will be stored in the post's `meta` map under `valid.` 
-You don't have to worry about that right now. Honest.
+`totes` will be stored in the post&#39;s `meta` map under `valid.` 
+You don&#39;t have to worry about that right now. Honest.
 </code></pre>
+<h1><a name="templates" class="anchor" href="#templates" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Templates</h1>
 
-<h1 id="toc_11">Templates</h1>
-
-<p>Templates use the standard library <a href="https://golang.org/pkg/text/template/">Go text/template</a>.</p>
+<p>Templates use the standard library <a href="https://golang.org/pkg/text/template/" rel="nofollow">Go text/template</a>.</p>
 
 <p>Entities in the templates --</p>
 
@@ -339,8 +343,8 @@ You don't have to worry about that right now. Honest.
 	Date    string
 	RssDate string
 </code></pre>
-
-<h2 id="toc_12">home</h2>
+<h2><a name="home" class="anchor" href="#home" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+home</h2>
 
 <p>Displays recent posts and rendered to <code>index.html</code> in the <code>output_dir</code>.</p>
 
@@ -348,8 +352,8 @@ You don't have to worry about that right now. Honest.
 <li>{{.Site}} <em>Site</em></li>
 <li>{{.Posts}} <em>Posts</em> all posts on site in reverse chronological order</li>
 </ul>
-
-<h2 id="toc_13">post</h2>
+<h2><a name="post" class="anchor" href="#post" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+post</h2>
 
 <p>Each individual post uses this template</p>
 
@@ -357,8 +361,8 @@ You don't have to worry about that right now. Honest.
 <li>{{.Site}} <em>Site</em></li>
 <li>{{.Post}} <em>Post</em> the individual post</li>
 </ul>
-
-<h2 id="toc_14">archive</h2>
+<h2><a name="archive" class="anchor" href="#archive" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+archive</h2>
 
 <p>Lists all posts, showing only titles and links. Rendered to <code>archive.html</code></p>
 
@@ -366,8 +370,8 @@ You don't have to worry about that right now. Honest.
 <li>{{.Site}} <em>Site</em></li>
 <li>{{.Posts}} <em>Posts</em> all posts, reverse chronological order</li>
 </ul>
-
-<h2 id="toc_15">rss</h2>
+<h2><a name="rss" class="anchor" href="#rss" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+rss</h2>
 
 <p>Displays recent posts as RSS 2.0 XML. Rendered to <code>rss.xml</code></p>
 
@@ -375,10 +379,10 @@ You don't have to worry about that right now. Honest.
 <li>{{.Site}} <em>Site</em></li>
 <li>{{.Posts}} <em>Posts</em> all posts, reverse chronological order</li>
 </ul>
-
-<h1 id="toc_16">Advanced Configuration Options</h1>
-
-<h2 id="toc_17">Permalink and filename formatter</h2>
+<h1><a name="advanced-configuration-options" class="anchor" href="#advanced-configuration-options" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Advanced Configuration Options</h1>
+<h2><a name="permalink-and-filename-formatter" class="anchor" href="#permalink-and-filename-formatter" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Permalink and filename formatter</h2>
 
 <p>Permalinks (URLs for individual posts) can be customized.</p>
 
@@ -424,42 +428,42 @@ You don't have to worry about that right now. Honest.
 </tbody>
 </table>
 
-<p><code>Filename</code> is a cleaned version of the post&rsquo;s original filename with the extension removed. Filenames and titles will be &ldquo;cleaned&rdquo; of characters unsuitable for links, with whitespace replaced by <code>-</code>.</p>
-
-<h2 id="toc_18">Filters</h2>
+<p><code>Filename</code> is a cleaned version of the post&#39;s original filename with the extension removed. Filenames and titles will be &#34;cleaned&#34; of characters unsuitable for links, with whitespace replaced by <code>-</code>.</p>
+<h2><a name="filters" class="anchor" href="#filters" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Filters</h2>
 
 <p>Arbitrary regular expressions can be executed on each post to create domain-specific and site-specific modifications.</p>
 
 <p>Here are the real world examples of regular expressions that filter each post on my personal site -</p>
 
-<pre><code class="language-yaml">filters:
-  - s: &lt;photo id=&quot;(.+)&quot;&gt;
-    r: &lt;div class=&quot;photo&quot;&gt;&lt;img src=&quot;/img/$1&quot; /&gt;&lt;/div&gt;
+<div class="highlight highlight-yaml"><pre>filters:
+  - s: &lt;photo id=&#34;(.+)&#34;&gt;
+    r: &lt;div class=&#34;photo&#34;&gt;&lt;img src=&#34;/img/$1&#34; /&gt;&lt;/div&gt;
   - s: &lt;segue /&gt;
-    r: &lt;p class=&quot;segue&quot;&gt;&amp;middot; &amp;middot; &amp;middot;&lt;/p&gt;
-  - s: &lt;youtube id=&quot;(.+)&quot;&gt;
-    r: &lt;p class=&quot;video&quot;&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=$1&quot;&gt;&lt;img src=&quot;/img/$1.jpg&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-  - s: &quot;amazon:(.+)&quot;
-    r: &quot;http://www.amazon.com/exec/obidos/ASIN/$1/decommodify-20/&quot;
-</code></pre>
-
-<h1 id="toc_19">Work in Progress Features</h1>
+    r: &lt;p class=&#34;segue&#34;&gt;&amp;middot; &amp;middot; &amp;middot;&lt;/p&gt;
+  - s: &lt;youtube id=&#34;(.+)&#34;&gt;
+    r: &lt;p class=&#34;video&#34;&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=$1&#34;&gt;&lt;img src=&#34;/img/$1.jpg&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+  - s: &#34;amazon:(.+)&#34;
+    r: &#34;http://www.amazon.com/exec/obidos/ASIN/$1/decommodify-20/&#34;
+</pre></div>
+<h1><a name="work-in-progress-features" class="anchor" href="#work-in-progress-features" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Work in Progress Features</h1>
 
 <p>These features are working but less documented and potentially still in progress and subject to change.</p>
-
-<h2 id="toc_20">Paged Archives</h2>
+<h2><a name="paged-archives" class="anchor" href="#paged-archives" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Paged Archives</h2>
 
 <p>If a template named <code>paged</code> is present then paged archives (15 posts per page) are created at <code>output_dir/page/%d.html</code></p>
 
 <p>Template variables are the same as the <code>archive</code> template, but with <code>.NextPage</code> and <code>.PrevPage</code> as integers of the next and previous page.</p>
 
 <p>See archive/paged.go for details.</p>
-
-<h2 id="toc_21">Tags</h2>
+<h2><a name="tags" class="anchor" href="#tags" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Tags</h2>
 
 <p>There is preliminary support for tag style metadata per post.</p>
 
-<p>Add a &ldquo;tags&rdquo; field to your post preamble. Tags should be comma separated.</p>
+<p>Add a &#34;tags&#34; field to your post preamble. Tags should be comma separated.</p>
 
 <pre><code>    tags: TagOne, tag two, a third tag, fourth
 
@@ -476,36 +480,37 @@ You don't have to worry about that right now. Honest.
 <p>This creates a file at OUTPUT_DIR/tag/tag_name/index.html for each tag.</p>
 
 <p>It will have access to the same variables as an <code>archive</code> template with the additional <code>.Tag</code> for the tag name.</p>
-
-<h2 id="toc_22">Binary Files as Posts</h2>
+<h2><a name="binary-files-as-posts" class="anchor" href="#binary-files-as-posts" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Binary Files as Posts</h2>
 
 <p>Preliminary support to treat binary files as standalone posts.</p>
 
-<p>Drop image files with &ldquo;jpg&rdquo; or other image extensions into the &ldquo;txt&rdquo; dir.</p>
+<p>Drop image files with &#34;jpg&#34; or other image extensions into the &#34;txt&#34; dir.</p>
 
 <ul>
-<li>post&rsquo;s ContentType will be set to &ldquo;image&rdquo;</li>
+<li>post&#39;s ContentType will be set to &#34;image&#34;</li>
 <li>text fields will be empty strings</li>
 <li>metadata will be populated as it can via exif (maybe)</li>
 </ul>
 
 <p>Video and audio files have preliminary support too -- see <code>post/post.go</code></p>
-
-<h1 id="toc_23">Example configurations, sites, themes</h1>
+<h1><a name="example-configurations-sites-themes" class="anchor" href="#example-configurations-sites-themes" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Example configurations, sites, themes</h1>
 
 <p><em>not done</em></p>
-
-<h1 id="toc_24">Rebuild and deployment recipes</h1>
+<h1><a name="rebuild-and-deployment-recipes" class="anchor" href="#rebuild-and-deployment-recipes" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Rebuild and deployment recipes</h1>
 
 <p><em>also not done</em></p>
-
-<h1 id="toc_25">TODO</h1>
+<h1><a name="todo" class="anchor" href="#todo" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+TODO</h1>
 
 <ul>
 <li>sample sites/templates</li>
 <li>proper man pages for docs</li>
 </ul>
+<h1><a name="feedback" class="anchor" href="#feedback" rel="nofollow" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+Feedback</h1>
 
-<h1 id="toc_26">Feedback</h1>
-
-<p>Pull requests and issues are welcomed at <a href="https://github.com/adammathes/snkt">https://github.com/adammathes/snkt</a></p>
+<p>Pull requests and issues are welcomed at <a href="https://github.com/adammathes/snkt" rel="nofollow">https://github.com/adammathes/snkt</a></p>
+</article></body></html>
