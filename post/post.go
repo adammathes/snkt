@@ -51,6 +51,9 @@ type Post struct {
 	// Content with sources and references resolved to absolute URLs
 	AbsoluteContent string
 
+	// AbsoluteContent with sanitizing for RSS feeds
+	SafeContent string
+
 	// Content HTML tags removed
 	PlainText string
 
@@ -196,7 +199,12 @@ func (p *Post) parse() {
 	//
 	p.Content = string(p.Filter([]byte(p.Text)))
 	p.AbsoluteContent = render.ResolveURLs(p.Content, p.Site.GetURL())
-	policy := bluemonday.StrictPolicy()
+
+	policy := bluemonday.UGCPolicy()
+	policy.RequireNoFollowOnLinks(false)
+	p.SafeContent = policy.Sanitize(p.AbsoluteContent)
+
+	policy = bluemonday.StrictPolicy()
 	p.PlainText = policy.Sanitize(p.Content)
 	p.PlainText = strings.Replace(p.PlainText, "\n\n", "\n", -1)
 	p.PlainText = strings.Replace(p.PlainText, "  ", " ", -1)
