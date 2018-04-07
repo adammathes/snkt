@@ -120,7 +120,7 @@ Output should now be in the `html` directory and look like
 
 `snkt` includes a simple web server to view the results with
 
-    $ snkt -p
+    $ snkt -s
     
 Visiting http://localhost:8000 in a web browser should now show the site and the first post.
 
