@@ -373,7 +373,7 @@ Filter runs the text through filters defined by render.Filter and markdown, retu
 */
 func (p *Post) Filter(txt []byte) []byte {
 	txt = render.Filter(txt)
-	txt = blackfriday.MarkdownCommon(txt)
+	txt = blackfriday.Run(txt)
 	return txt
 }
 
