@@ -15,8 +15,7 @@ import (
 
 var templates map[string]*template.Template
 var BASE_TEMPLATE = "base"
-var rel_href *regexp.Regexp
-var rel_src *regexp.Regexp
+var rel_href, rel_src, re_href, re_src *regexp.Regexp
 
 /*
 Renderable interface - objects that render themeslves to a []byte and
@@ -86,6 +85,8 @@ func Init() {
 	}
 	rel_href = regexp.MustCompile(`href="/(.+)"`)
 	rel_src = regexp.MustCompile(`src="/(.+)"`)
+	re_href = regexp.MustCompile(`href="(.*?)"`)
+	re_src = regexp.MustCompile(`src="(.*?)"`)
 }
 
 /*
@@ -127,6 +128,34 @@ func ResolveURLs(html, prefix string) string {
 	bts = rel_href.ReplaceAll(bts, []byte(`href="`+prefix+`/$1"`))
 	bts = rel_src.ReplaceAll(bts, []byte(`src="`+prefix+`/$1"`))
 	return string(bts)
+}
+
+/*
+Finds all URLs that are hrefs
+TODO: replace noisy regex with HTML parser
+*/
+func FindURLs(html string) []string {
+	//	bts := []byte(html)
+	hrefs := re_href.FindAllStringSubmatch(html, -1)
+	var urls []string
+	for _, href := range hrefs {
+		urls = append(urls, href[1])
+	}
+	return urls
+}
+
+/*
+Finds all img urls via img src tags
+TODO: replace noisy regex with HTML parser
+*/
+func FindImgs(html string) []string {
+	//	bts := []byte(html)
+	srcs := re_src.FindAllStringSubmatch(html, -1)
+	var imgs []string
+	for _, src := range srcs {
+		imgs = append(imgs, src[1])
+	}
+	return imgs
 }
 
 /*

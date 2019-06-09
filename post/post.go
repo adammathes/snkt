@@ -41,6 +41,8 @@ type Post struct {
 	InFuture   bool
 	WordCount  int
 	Tags       []string
+	Urls       []string
+	Imgs       []string
 
 	// Content text -- raw, unprocessed, unfiltered markdown
 	Text string
@@ -220,6 +222,10 @@ func (p *Post) parse() {
 			p.Tags = append(p.Tags, NormalizeTag(tag))
 		}
 	}
+
+	// Images and URLs
+	p.Urls = render.FindURLs(p.AbsoluteContent)
+	p.Imgs = render.FindImgs(p.AbsoluteContent)
 }
 
 /*

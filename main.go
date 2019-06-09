@@ -39,7 +39,7 @@ func main() {
 	}
 	if help {
 		flag.Usage()
-		fmt.Printf("code and docs: https://github.com/adammathes/snkt \n")
+		fmt.Printf("code and docs: https://git.adammathes.com/snkt \n")
 		return
 	}
 
