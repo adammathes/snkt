@@ -12,6 +12,7 @@ import (
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/russross/blackfriday"
 	"github.com/rwcarlsen/goexif/exif"
+	// "gopkg.in/russross/blackfriday.v2"
 	"io/ioutil"
 	"log"
 	"os"
