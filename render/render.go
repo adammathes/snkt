@@ -66,7 +66,7 @@ func Init() {
 		"SiteURL":     SiteURL,
 	}
 
-	base := path.Join(config.Config.TmplDir, BASE_TEMPLATE)
+	// base := path.Join(config.Config.TmplDir, BASE_TEMPLATE)
 	for _, t := range ts {
 		tf := filepath.Base(t)
 
@@ -74,7 +74,8 @@ func Init() {
 		// templates[tf] = template.Must(template.ParseFiles(t, base))
 
 		tx := template.New("t").Funcs(tmplFuncs)
-		templates[tf], err = tx.ParseFiles(base, t)
+		//		templates[tf], err = tx.ParseFiles(base, t, (ts...))
+		templates[tf], err = tx.ParseGlob(config.Config.TmplDir + "/*")
 		if err != nil {
 			// temporary files can confuse this, especially when
 			// running the file system watcher so we silently
